@@ -10,8 +10,15 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function productType(): BelongsTo
     {
         return $this->belongsTo(ProductType::class);
+    }
+
+    public function stock()
+    {
+        return $this->hasOne(Stock::class);
     }
 }

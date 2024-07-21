@@ -1,15 +1,14 @@
 <x-layout>
+    <div class="p-4">
+        <x-link-button href="/products/new">Criar Novo Produto</x-link-button>
+    </div>
+    <div>
+        @foreach($products as $product)
+        <x-product-wide-card :$product />
+        @endforeach
+    </div>
 
-    //add new products
-    //list of the products
-    //clicking an item redirect to the item update
-
-    @foreach($products as $product)
-    <x-product-card :$product />
-    <x-product-wide-card :$product />
-    @endforeach
-
-
-
-
+    <div>
+        {{$products->links()}}
+    </div>
 </x-layout>
