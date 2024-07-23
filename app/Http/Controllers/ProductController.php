@@ -24,7 +24,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name'            => 'required',
-            'value'           => 'required|integer',
+            'value'           => 'required|numeric',
             'product_type_id' => 'required|exists:product_types,id',
             'minimum_amount'  => 'required|integer',
             'maximum_amount'  => 'required|integer'
@@ -55,7 +55,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name'            => 'required',
-            'value'           => 'required|integer',
+            'value'           => 'required|numeric',
             'product_type_id' => 'required|exists:product_types,id',
             'minimum_amount'  => 'required|integer',
             'maximum_amount'  => 'required|integer'

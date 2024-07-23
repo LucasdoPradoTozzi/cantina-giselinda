@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,3 +16,6 @@ Route::post('/products', [ProductController::class, 'store']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::post('/products/{id}', [ProductController::class, 'update']);
 Route::post('/products/{id}/delete', [ProductController::class, 'delete']);
+
+//STOCK
+Route::get('/stock', [StockController::class, 'index']);

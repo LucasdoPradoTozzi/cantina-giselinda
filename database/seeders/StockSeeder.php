@@ -18,8 +18,7 @@ class StockSeeder extends Seeder
 
         foreach ($products as $product) {
             Stock::factory()->create([
-                'product_id' => $product->id,
-                'quantity' => 5
+                'product_id' => $product->id
             ]);
         }
     }

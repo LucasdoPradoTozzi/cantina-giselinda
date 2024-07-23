@@ -1,1 +1,1 @@
-<p class="text-sm text-gray-400 mt-auto"> R$ {{ $slot}},00</p>
+<p class="text-sm text-gray-400 mt-auto"> R$ {{ $slot}}</p>

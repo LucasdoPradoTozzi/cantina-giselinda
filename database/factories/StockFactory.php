@@ -18,7 +18,7 @@ class StockFactory extends Factory
     {
         return [
             'product_id' => "",
-            'quantity' => $this->faker->numberBetween(1, 100)
+            'quantity' => $this->faker->numberBetween(1, 22)
         ];
     }
 }
