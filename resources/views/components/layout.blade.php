@@ -33,6 +33,7 @@
             <x-nav-link href="/products" :active="request()->is('products')">Produtos</x-nav-link>
             <x-nav-link href="/stock" :active="request()->is('stock')">Estoque</x-nav-link>
             <x-nav-link href="/buys" :active="request()->is('buys')">Compras</x-nav-link>
+            <x-nav-link href="/sells" :active="request()->is('sells')">Vendas</x-nav-link>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
             <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>

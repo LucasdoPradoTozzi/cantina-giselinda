@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buy;
+use App\Models\Product;
+use App\Models\PurchaseItem;
+use App\Models\Stock;
+use Dotenv\Validator;
 use Illuminate\Http\Request;
 
 class BuyController extends Controller
@@ -11,7 +16,12 @@ class BuyController extends Controller
      */
     public function index()
     {
-        //
+        $buys = Buy::with('purchaseItem')
+            ->withSum('purchaseItem', 'total_price')
+            ->paginate(10);
+
+
+        return view('buys.index', ['buys' => $buys]);
     }
 
     /**
@@ -19,7 +29,9 @@ class BuyController extends Controller
      */
     public function create()
     {
-        //
+        $products = Product::all();
+
+        return view('buys.create', ['products' => $products]);
     }
 
     /**
@@ -27,15 +39,44 @@ class BuyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $buy = Buy::create(
+            [
+                'title' => $request->title
+            ]
+        );
+
+        $idBuy = $buy->id;
+
+        foreach ($request->products as $product) {
+            PurchaseItem::create([
+                'product_id' => $product['product_id'],
+                'buy_id' => $idBuy,
+                'amount' => $product['amount'],
+                'price_by_item' => $product['price_by_item'],
+                'total_price' => $product['amount'] * $product['price_by_item']
+            ]);
+
+            $stock = Stock::where('product_id', $product['product_id'])->firstOrFail();
+            $stock->quantity += $product['amount'];
+            $stock->save();
+        }
+        return redirect('/buys');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(String $id)
     {
-        //
+        $buy = Buy::with('purchaseItem.product')
+            ->withSum('purchaseItem', 'total_price')
+            ->where('id', $id)
+            ->firstOrFail();
+
+
+        return view('buys.show', [
+            'buy' => $buy
+        ]);
     }
 
     /**
