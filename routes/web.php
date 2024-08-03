@@ -26,3 +26,5 @@ Route::get('/buys', [BuyController::class, 'index']);
 Route::get('/buys/{id}', [BuyController::class, 'show']);
 Route::get('/buys/new', [BuyController::class, 'create']);
 Route::post('/buys', [BuyController::class, 'store']);
+
+//SELLS
