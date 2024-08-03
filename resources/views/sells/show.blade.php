@@ -4,7 +4,7 @@
             {{$sell->title}}
         </h1>
         <p class="md-2 p-2">Total ganho R$ {{ $sell->sold_item_sum_sold_price}}</p>
-        @foreach($sell->purchaseItem as $item)
+        @foreach($sell->soldItem as $item)
         <table class="min-w-full divide-y divide-gray-700 bg-black">
             <thead class="bg-gray-800">
                 <tr>

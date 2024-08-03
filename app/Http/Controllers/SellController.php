@@ -72,4 +72,17 @@ class SellController extends Controller
             DB::rollBack();
         }
     }
+
+    public function show(String $id)
+    {
+        $sell = Sell::with('soldItem.product')
+            ->withSum('soldItem', 'sold_price')
+            ->where('id', $id)
+            ->firstOrFail();
+
+
+        return view('sells.show', [
+            'sell' => $sell
+        ]);
+    }
 }

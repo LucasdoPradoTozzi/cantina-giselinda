@@ -33,3 +33,4 @@ Route::post('/buys', [BuyController::class, 'store']);
 Route::get('/sells/new', [SellController::class, 'create']);
 Route::get('/sells', [SellController::class, 'index']);
 Route::post('/sells', [SellController::class, 'store']);
+Route::get('/sells/{id}', [SellController::class, 'show']);
