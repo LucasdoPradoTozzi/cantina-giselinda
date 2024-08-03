@@ -36,7 +36,7 @@ class ProductFactory extends Factory
                 'Ramen'
             ]),
             'product_type_id' => ProductType::factory(),
-            'value' => floatval(fake()->randomNumber()),
+            'value' => floatval(fake()->numberBetween(1, 100)),
             'minimum_amount' => $this->faker->numberBetween(1, 10),
             'maximum_amount' => $this->faker->numberBetween(11, 20)
         ];
