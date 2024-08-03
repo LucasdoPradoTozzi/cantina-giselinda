@@ -45,9 +45,11 @@ class SellController extends Controller
                 $productById = Product::where('id', $product['product_id'])->firstOrFail();
 
                 $soldPrice = (!empty($product['sold_price'])) ? $product['sold_price'] : "";
+                $wasAOffer = 1;
 
                 if (empty($soldPrice)) {
                     $soldPrice = $product['amount'] * $productById->value;
+                    $wasAOffer = 0;
                 }
 
                 SoldItem::create([
@@ -55,7 +57,8 @@ class SellController extends Controller
                     'sell_id' => $idSell,
                     'amount' => $product['amount'],
                     'price_by_item' => $productById->value,
-                    'sold_price' => $soldPrice
+                    'sold_price' => $soldPrice,
+                    'was_a_offer' => $wasAOffer
                 ]);
 
                 $stock = Stock::where('product_id', $product['product_id'])->firstOrFail();

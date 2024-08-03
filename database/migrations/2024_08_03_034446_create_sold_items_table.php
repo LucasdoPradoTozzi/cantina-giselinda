@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->float('price_by_item');
             $table->float('sold_price');
+            $table->tinyInteger('was_a_offer');
             $table->timestamps();
         });
     }
