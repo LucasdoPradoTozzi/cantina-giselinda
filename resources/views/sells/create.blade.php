@@ -31,7 +31,7 @@
             </x-forms.select>
             <div id="stock-info-${itemIndex}" class="stock-info p-1"></div>
             <x-forms.input required type="number" label="Quantidade" name="products[${itemIndex}][amount]" />
-            <x-forms.input required type="number" step="0.01" label="Preço cobrado" name="products[${itemIndex}][sold_price]" placeholder="Preencher apenas caso cobre um preço diferente" />
+            <x-forms.input type="number" step="0.01" label="Preço cobrado" name="products[${itemIndex}][sold_price]" placeholder="Preencher apenas caso cobre um preço diferente" />
         `;
         itemContainer.appendChild(newItem);
 
