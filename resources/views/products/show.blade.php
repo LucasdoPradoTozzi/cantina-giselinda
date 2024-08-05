@@ -2,9 +2,10 @@
     <div class="pt-4">
         <x-page-heading>Atualizar Produto</x-page-heading>
 
-        <x-forms.form id="update-form" method="POST" action="/products/{{$product->id}}">
+        <x-forms.form id="update-form" method="POST" action="/products/{{$product->id}}" enctype="multipart/form-data">
             <x-forms.input label="Nome do Produto" name="name" value="{{$product->name}}" />
             <x-forms.input label="Valor do Produto" name="value" value="{{$product->value}}" />
+            <x-forms.input type="file" label="Foto do Produto" name="photo" />
 
             <x-forms.select label="Tipo do Produto" name="product_type_id">
                 @foreach($productTypes as $productType)

@@ -72,12 +72,21 @@ class ProductController extends Controller
 
         $product = Product::with('productType')->where('id', $id)->firstOrFail();
 
+        $photoPath = $product->photo_path;
+
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+
+            $photoPath = PhotoController::store($photo);
+        }
+
         $product->update([
             'name'            => $request->input('name'),
             'value'           => $request->input('value'),
             'product_type_id' => $request->input('product_type_id'),
             'minimum_amount'  => $request->input('minimum_amount'),
             'maximum_amount'  => $request->input('maximum_amount'),
+            'photo_path'      => $photoPath
         ]);
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');

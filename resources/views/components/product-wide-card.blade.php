@@ -2,7 +2,7 @@
 
 <x-panel class="flex gap-x-6">
     <div>
-        <img src="http://picsum.photos/seed/{{ $product->id }}/100" alt="{{$product->name}}" class="rounded-xl">
+        <img src="{{ asset('storage/photos/' . $product->photo_path) }}" alt="{{$product->name}}" class="w-32 h-32 rounded-xl">
     </div>
 
     <div class="flex-1 flex flex-col">

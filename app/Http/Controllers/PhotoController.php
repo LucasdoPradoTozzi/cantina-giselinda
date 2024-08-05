@@ -10,8 +10,8 @@ class PhotoController extends Controller
     public static function store($file)
     {
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $path = $file->storeAs('public/photos', $fileName);
+        $file->storeAs('public/photos', $fileName);
 
-        return $path;
+        return $fileName;
     }
 }
