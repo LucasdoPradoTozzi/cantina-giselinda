@@ -25,8 +25,8 @@ Route::get('/stock/{id}', [StockController::class, 'getStockByProductId']);
 
 //BUYS
 Route::get('/buys', [BuyController::class, 'index']);
-Route::get('/buys/{id}', [BuyController::class, 'show']);
 Route::get('/buys/new', [BuyController::class, 'create']);
+Route::get('/buys/{id}', [BuyController::class, 'show']);
 Route::post('/buys', [BuyController::class, 'store']);
 
 //SELLS

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('value', 10, 2);
             $table->integer('maximum_amount');
             $table->integer('minimum_amount');
+            $table->string('photo_path')->nullable();
             $table->timestamps();
         });
     }

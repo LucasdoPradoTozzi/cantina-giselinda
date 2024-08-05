@@ -27,8 +27,16 @@ class ProductController extends Controller
             'value'           => 'required|numeric',
             'product_type_id' => 'required|exists:product_types,id',
             'minimum_amount'  => 'required|integer',
-            'maximum_amount'  => 'required|integer'
+            'maximum_amount'  => 'required|integer',
         ]);
+
+        $photoPath = null;
+
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+
+            $photoPath = PhotoController::store($photo);
+        }
 
         Product::create([
             'name'            => $request->input('name'),
@@ -36,6 +44,7 @@ class ProductController extends Controller
             'product_type_id' => $request->input('product_type_id'),
             'minimum_amount'  => $request->input('minimum_amount'),
             'maximum_amount'  => $request->input('maximum_amount'),
+            'photo_path'      => $photoPath
         ]);
 
         return redirect()->route('products.index');
