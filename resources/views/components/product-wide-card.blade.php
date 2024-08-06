@@ -14,6 +14,8 @@
             </a>
         </h3>
 
+        <p class="text-base mt-3"> {{ $product->description }} </p>
+
         <x-show-price>{{ $product->value }}</x-show-price>
     </div>
 

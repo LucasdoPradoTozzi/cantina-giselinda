@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('description');
             $table->foreignIdFor(ProductType::class);
             $table->float('value', 10, 2);
             $table->integer('maximum_amount');

@@ -4,6 +4,7 @@
 
         <x-forms.form method="POST" action="/products" enctype="multipart/form-data">
             <x-forms.input label="Nome do Produto" name="name" />
+            <x-forms.input-text label="Descrição do Produto" name="description" />
             <x-forms.input label="Valor do Produto" name="value" />
             <x-forms.input type="file" label="Foto do Produto" name="photo" />
 

@@ -24,13 +24,14 @@ class ProductController extends Controller
     {
         $request->validate([
             'name'            => 'required',
+            'description'     => 'required',
             'value'           => 'required|numeric',
             'product_type_id' => 'required|exists:product_types,id',
             'minimum_amount'  => 'required|integer',
             'maximum_amount'  => 'required|integer',
         ]);
 
-        $photoPath = null;
+        $photoPath = "noPhoto.jpg";
 
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
@@ -40,6 +41,7 @@ class ProductController extends Controller
 
         Product::create([
             'name'            => $request->input('name'),
+            'description'     => $request->input('description'),
             'value'           => $request->input('value'),
             'product_type_id' => $request->input('product_type_id'),
             'minimum_amount'  => $request->input('minimum_amount'),
@@ -64,6 +66,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name'            => 'required',
+            'description'     => 'required',
             'value'           => 'required|numeric',
             'product_type_id' => 'required|exists:product_types,id',
             'minimum_amount'  => 'required|integer',
@@ -82,6 +85,7 @@ class ProductController extends Controller
 
         $product->update([
             'name'            => $request->input('name'),
+            'description'     => $request->input('description'),
             'value'           => $request->input('value'),
             'product_type_id' => $request->input('product_type_id'),
             'minimum_amount'  => $request->input('minimum_amount'),

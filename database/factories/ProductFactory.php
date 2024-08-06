@@ -35,10 +35,12 @@ class ProductFactory extends Factory
                 'Paella',
                 'Ramen'
             ]),
+            'description' => fake()->text(),
             'product_type_id' => ProductType::factory(),
             'value' => floatval(fake()->numberBetween(1, 100)),
             'minimum_amount' => $this->faker->numberBetween(1, 10),
-            'maximum_amount' => $this->faker->numberBetween(11, 20)
+            'maximum_amount' => $this->faker->numberBetween(11, 20),
+            'photo_path' => "noPhoto.jpg"
         ];
     }
 }
