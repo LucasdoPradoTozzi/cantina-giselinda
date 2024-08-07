@@ -10,6 +10,8 @@ class ProductType extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function product(): HasMany
     {
         return $this->hasMany(Product::class);

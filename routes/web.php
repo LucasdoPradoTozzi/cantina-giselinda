@@ -3,6 +3,7 @@
 use App\Http\Controllers\BuyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\StockController;
 
@@ -18,6 +19,13 @@ Route::post('/products', [ProductController::class, 'store']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::post('/products/{id}', [ProductController::class, 'update']);
 Route::post('/products/{id}/delete', [ProductController::class, 'delete']);
+
+//PRODUCTS ROUTES
+Route::get('/product-types', [ProductTypeController::class, 'index'])->name('productTypes.index');
+Route::get('/product-type/new', [ProductTypeController::class, 'create']);
+Route::post('/product-type', [ProductTypeController::class, 'store']);
+Route::get('/product-type/{id}', [ProductTypeController::class, 'show']);
+Route::post('/product-type/{id}', [ProductTypeController::class, 'update']);
 
 //STOCK
 Route::get('/stock', [StockController::class, 'index']);
