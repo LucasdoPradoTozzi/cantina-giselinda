@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BuyController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
@@ -42,3 +43,6 @@ Route::get('/sells/new', [SellController::class, 'create']);
 Route::get('/sells', [SellController::class, 'index']);
 Route::post('/sells', [SellController::class, 'store']);
 Route::get('/sells/{id}', [SellController::class, 'show']);
+
+//dashboard
+Route::get('/dashboard/best-sellers', [DashboardController::class, 'getTopFiveBestSellers']);

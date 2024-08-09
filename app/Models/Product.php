@@ -28,4 +28,9 @@ class Product extends Model
     {
         return $this->hasMany(PurchaseItem::class);
     }
+
+    public function soldItem(): HasMany
+    {
+        return $this->hasMany(SoldItem::class);
+    }
 }
