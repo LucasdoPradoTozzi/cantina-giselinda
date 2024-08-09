@@ -55,3 +55,4 @@ Route::get('/wastes/{id}', [WasteController::class, 'show']);
 
 //DASHBOARD
 Route::get('/dashboard/best-sellers', [DashboardController::class, 'getTopFiveBestSellers']);
+Route::get('/dashboard/worst-losses', [DashboardController::class, 'getWorstLosses']);
