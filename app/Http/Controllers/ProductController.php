@@ -26,6 +26,7 @@ class ProductController extends Controller
             'name'            => 'required',
             'description'     => 'required',
             'value'           => 'required|numeric',
+            'buy_value'       => 'required|numeric',
             'product_type_id' => 'required|exists:product_types,id',
             'minimum_amount'  => 'required|integer',
             'maximum_amount'  => 'required|integer',
@@ -42,6 +43,7 @@ class ProductController extends Controller
         Product::create([
             'name'            => $request->input('name'),
             'description'     => $request->input('description'),
+            'buy_value'       => $request->input('buy_value'),
             'value'           => $request->input('value'),
             'product_type_id' => $request->input('product_type_id'),
             'minimum_amount'  => $request->input('minimum_amount'),
@@ -67,6 +69,7 @@ class ProductController extends Controller
         $request->validate([
             'name'            => 'required',
             'description'     => 'required',
+            'buy_value'       => 'required|numeric',
             'value'           => 'required|numeric',
             'product_type_id' => 'required|exists:product_types,id',
             'minimum_amount'  => 'required|integer',
@@ -86,6 +89,7 @@ class ProductController extends Controller
         $product->update([
             'name'            => $request->input('name'),
             'description'     => $request->input('description'),
+            'buy_value'       => $request->input('buy_value'),
             'value'           => $request->input('value'),
             'product_type_id' => $request->input('product_type_id'),
             'minimum_amount'  => $request->input('minimum_amount'),

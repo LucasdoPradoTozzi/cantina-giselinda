@@ -9,7 +9,7 @@
                 {{ $buy->title }}
             </a>
         </h3>
-        <x-show-price>{{ $buy->purchase_item_sum_total_price }}</x-show-price>
+        <x-show-price label="Valor gasto"> {{ $buy->purchase_item_sum_total_price }}</x-show-price>
     </div>
     <div>
     </div>

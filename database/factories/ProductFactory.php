@@ -37,7 +37,8 @@ class ProductFactory extends Factory
             ]),
             'description' => fake()->text(),
             'product_type_id' => ProductType::factory(),
-            'value' => floatval(fake()->numberBetween(1, 100)),
+            'buy_value' => floatval(fake()->numberBetween(1, 15)),
+            'value' => floatval(fake()->numberBetween(16, 30)),
             'minimum_amount' => $this->faker->numberBetween(1, 10),
             'maximum_amount' => $this->faker->numberBetween(11, 20),
             'photo_path' => "noPhoto.jpg"

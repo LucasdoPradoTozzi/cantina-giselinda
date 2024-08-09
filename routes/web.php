@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\WasteController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -44,5 +45,13 @@ Route::get('/sells', [SellController::class, 'index']);
 Route::post('/sells', [SellController::class, 'store']);
 Route::get('/sells/{id}', [SellController::class, 'show']);
 
-//dashboard
+//WASTES
+Route::get('/wastes/new', [WasteController::class, 'create']);
+Route::get('/wastes', [WasteController::class, 'index']);
+Route::post('/wastes', [WasteController::class, 'store']);
+Route::get('/wastes/{id}', [WasteController::class, 'show']);
+
+
+
+//DASHBOARD
 Route::get('/dashboard/best-sellers', [DashboardController::class, 'getTopFiveBestSellers']);
