@@ -4,27 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Sell extends Model
+class Customer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title'];
+    protected $guarded = ['id'];
 
-    public function soldItem(): HasMany
+    public function sell(): HasMany
     {
-        return $this->hasMany(soldItem::class);
+        return $this->hasMany(Sell::class);
     }
 
     public function customerPayment(): HasMany
     {
         return $this->hasMany(CustomerPayment::class);
-    }
-
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(Customer::class);
     }
 }
