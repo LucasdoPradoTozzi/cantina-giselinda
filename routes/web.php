@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BuyController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -50,6 +51,13 @@ Route::get('/wastes/new', [WasteController::class, 'create']);
 Route::get('/wastes', [WasteController::class, 'index']);
 Route::post('/wastes', [WasteController::class, 'store']);
 Route::get('/wastes/{id}', [WasteController::class, 'show']);
+
+//CUSTOMERS
+Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+Route::get('/customers/new', [CustomerController::class, 'create']);
+Route::post('/customers', [CustomerController::class, 'store']);
+
+
 
 
 
