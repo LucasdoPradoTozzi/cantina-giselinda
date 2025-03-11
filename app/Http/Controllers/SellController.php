@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Models\Sell;
 use App\Models\SoldItem;
 use App\Models\Stock;
+use App\Models\Customer;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,7 +27,9 @@ class SellController extends Controller
     {
         $products = Product::all();
 
-        return view('sells.create', ['products' => $products]);
+        $customers = Customer::all();
+
+        return view('sells.create', ['products' => $products, 'customers' => $customers]);
     }
 
 

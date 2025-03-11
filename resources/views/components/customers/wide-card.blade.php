@@ -11,8 +11,6 @@
                 {{ $customer->name }}
             </a>
         </h3>
-
-        <!-- <p class="text-base mt-3"> {{ $customer->description }} </p> -->
     </div>
 
     <div>
