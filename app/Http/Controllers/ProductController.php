@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductType;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -22,6 +23,8 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+
+
         $request->validate([
             'name'            => 'required',
             'description'     => 'required',
@@ -51,7 +54,10 @@ class ProductController extends Controller
             'photo_path'      => $photoPath
         ]);
 
-        Stock::create(['product_id' => $product->id])
+        Stock::create(
+                    ['product_id' => $product->id,
+                        'quantity' => 0
+                    ]);
 
         return redirect()->route('products.index');
     }
