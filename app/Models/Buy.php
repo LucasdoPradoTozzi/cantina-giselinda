@@ -14,6 +14,6 @@ class Buy extends Model
 
     public function purchaseItem(): HasMany
     {
-        return $this->hasMany(purchaseItem::class);
+        return $this->hasMany(PurchaseItem::class);
     }
 }

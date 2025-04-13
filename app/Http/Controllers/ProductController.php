@@ -40,7 +40,7 @@ class ProductController extends Controller
             $photoPath = PhotoController::store($photo);
         }
 
-        Product::create([
+        $product = Product::create([
             'name'            => $request->input('name'),
             'description'     => $request->input('description'),
             'buy_value'       => $request->input('buy_value'),
@@ -50,6 +50,8 @@ class ProductController extends Controller
             'maximum_amount'  => $request->input('maximum_amount'),
             'photo_path'      => $photoPath
         ]);
+
+        Stock::create(['product_id' => $product->id])
 
         return redirect()->route('products.index');
     }

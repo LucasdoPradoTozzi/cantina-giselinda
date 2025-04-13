@@ -15,7 +15,7 @@ class Sell extends Model
 
     public function soldItem(): HasMany
     {
-        return $this->hasMany(soldItem::class);
+        return $this->hasMany(SoldItem::class);
     }
 
     public function customerPayment(): HasMany
