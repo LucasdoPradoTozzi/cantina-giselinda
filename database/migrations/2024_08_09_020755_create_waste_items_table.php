@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignIdFor(Product::class);
             $table->foreignIdFor(Waste::class);
             $table->integer('amount');
-            $table->float('price_by_item');
-            $table->float('total_price');
+            $table->integer('price_by_item');
+            $table->integer('total_price');
             $table->timestamps();
         });
     }

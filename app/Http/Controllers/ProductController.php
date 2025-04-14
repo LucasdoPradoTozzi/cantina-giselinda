@@ -28,12 +28,14 @@ class ProductController extends Controller
         $request->validate([
             'name'            => 'required',
             'description'     => 'required',
-            'value'           => 'required|numeric',
-            'buy_value'       => 'required|numeric',
+            'value'           => 'required|string',
+            'buy_value'       => 'required|string',
             'product_type_id' => 'required|exists:product_types,id',
             'minimum_amount'  => 'required|integer',
             'maximum_amount'  => 'required|integer',
         ]);
+
+        dd($request);
 
         $photoPath = "noPhoto.jpg";
 

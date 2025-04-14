@@ -12,6 +12,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
 
 </head>
 <header class="bg-white">
@@ -39,3 +41,9 @@
 </body>
 
 </html>
+
+<script> 
+    $(document).ready(function(){ 
+        $('.moneyInput').mask('##0,00', {reverse: true});
+    });
+</script>

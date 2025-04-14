@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('customer_payments', function (Blueprint $table) {
             $table->id();
-            $table->float('value');
+            $table->integer('value');
             $table->foreignId(Sell::class);
             $table->timestamps();
         });

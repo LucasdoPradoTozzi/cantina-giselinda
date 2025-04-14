@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->foreignIdFor(ProductType::class);
-            $table->float('buy_value', 10, 2);
-            $table->float('value', 10, 2);
+            $table->integer('buy_value');
+            $table->integer('value');
             $table->integer('maximum_amount');
             $table->integer('minimum_amount');
             $table->string('photo_path')->nullable();

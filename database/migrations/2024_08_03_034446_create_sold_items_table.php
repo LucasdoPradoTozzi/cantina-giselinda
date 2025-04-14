@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignIdFor(Product::class);
             $table->foreignIdFor(Sell::class);
             $table->integer('amount');
-            $table->float('price_by_item');
-            $table->float('sold_price');
+            $table->integer('price_by_item');
+            $table->integer('sold_price');
             $table->tinyInteger('was_a_offer');
             $table->timestamps();
         });
