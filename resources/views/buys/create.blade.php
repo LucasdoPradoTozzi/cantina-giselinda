@@ -30,7 +30,7 @@
                 @endforeach
             </x-forms.select>
             <x-forms.input required type="number" label="Quantidade" name="products[${itemIndex}][amount]" />
-            <x-forms.input required type="number" step="0.01" label="Preço de cada produto" name="products[${itemIndex}][price_by_item]" />
+            <x-forms.input-money label="Preço de cada produto" name="products[${itemIndex}][price_by_item]" />
         `;
         itemContainer.appendChild(newItem);
         itemIndex++;

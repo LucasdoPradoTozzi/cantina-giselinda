@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\PurchaseItem;
 use App\Models\Stock;
 use Dotenv\Validator;
+use Exception;
 use Illuminate\Http\Request;
 
 class BuyController extends Controller
@@ -20,6 +21,15 @@ class BuyController extends Controller
             ->withSum('purchaseItem', 'total_price')
             ->paginate(10);
 
+        $buys->getCollection()->transform(function ($buy) {
+
+            $buy->purchase_item_sum_total_price = bcdiv(
+                (string) $buy->purchase_item_sum_total_price,
+                '100',
+                2
+            );
+            return $buy;
+        });
 
         return view('buys.index', ['buys' => $buys]);
     }
@@ -47,16 +57,30 @@ class BuyController extends Controller
 
         $idBuy = $buy->id;
 
-        foreach ($request->products as $product) {
+
+
+        foreach ($request->products as $purchasedProduct) {
+
+            $product = Product::where('id', $purchasedProduct['product_id'])->first();
+            if (!$product) throw new Exception('Produto inexistente.');
+
+            $priceByItem = (!empty($purchasedProduct['price_by_item'])) ? $purchasedProduct['price_by_item']
+                : bcdiv((string) $product->buy_value, '100', 2);
+
+            $totalPrice = bcmul($priceByItem, (string) $purchasedProduct['amount'], 2);
+
+            $priceByItem = (int) bcmul($priceByItem, '100', 2);
+            $totalPrice = (int) bcmul($totalPrice, '100', 2);
+
             PurchaseItem::create([
-                'product_id' => $product['product_id'],
+                'product_id' => $product->id,
                 'buy_id' => $idBuy,
-                'amount' => $product['amount'],
-                'price_by_item' => $product['price_by_item'],
-                'total_price' => $product['amount'] * $product['price_by_item']
+                'amount' => $purchasedProduct['amount'],
+                'price_by_item' => $priceByItem,
+                'total_price' => $totalPrice
             ]);
 
-            $stock = Stock::where('product_id', $product['product_id'])->firstOrFail();
+            $stock = Stock::where('product_id', $product->id)->firstOrFail();
             $stock->quantity += $product['amount'];
             $stock->save();
         }
@@ -73,6 +97,13 @@ class BuyController extends Controller
             ->where('id', $id)
             ->firstOrFail();
 
+        $buy->purchase_item_sum_total_price = bcdiv((string) $buy->purchase_item_sum_total_price, '100', 2);
+
+        $buy->purchaseItem = $buy->purchaseItem->map(function ($item) {
+            $item->total_price = bcdiv((string) $item->total_price, '100', 2);
+            $item->price_by_item = bcdiv((string) $item->price_by_item, '100', 2);
+            return $item;
+        });
 
         return view('buys.show', [
             'buy' => $buy

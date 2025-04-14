@@ -8,5 +8,5 @@
     </x-forms.select>
 
     <x-forms.input required type="number" label="Quantidade" name="products[{{ $index }}][amount]" />
-    <x-forms.input required type="number" step="0.01" label="Preço de cada produto" name="products[{{ $index }}][price_by_item]" />
+    <x-forms.input-money label="Preço de cada produto" name="products[{{ $index }}][price_by_item]" />
 </div>
