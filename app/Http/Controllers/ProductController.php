@@ -11,10 +11,17 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->with('productType')->paginate(10);
+        $products = Product::latest()
+            ->with('productType')
+            ->paginate(10);
+
+        $products->getCollection()->transform(function ($product) {
+            $product->value = bcdiv((string) $product->value, '100', 2);
+            return $product;
+        });
+
         return view('products.index', ['products' => $products]);
     }
-
     public function create()
     {
         $productTypes = ProductType::latest()->get();
@@ -23,7 +30,6 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-
 
         $request->validate([
             'name'            => 'required',
@@ -35,7 +41,8 @@ class ProductController extends Controller
             'maximum_amount'  => 'required|integer',
         ]);
 
-        dd($request);
+        $buyValue = (int) bcmul($request->input('buy_value'), '100', 0);
+        $value = (int) bcmul($request->input('value'), '100', 0);
 
         $photoPath = "noPhoto.jpg";
 
@@ -48,8 +55,8 @@ class ProductController extends Controller
         $product = Product::create([
             'name'            => $request->input('name'),
             'description'     => $request->input('description'),
-            'buy_value'       => $request->input('buy_value'),
-            'value'           => $request->input('value'),
+            'buy_value'       => $buyValue,
+            'value'           => $value,
             'product_type_id' => $request->input('product_type_id'),
             'minimum_amount'  => $request->input('minimum_amount'),
             'maximum_amount'  => $request->input('maximum_amount'),
@@ -57,9 +64,11 @@ class ProductController extends Controller
         ]);
 
         Stock::create(
-                    ['product_id' => $product->id,
-                        'quantity' => 0
-                    ]);
+            [
+                'product_id' => $product->id,
+                'quantity' => 0
+            ]
+        );
 
         return redirect()->route('products.index');
     }
@@ -68,6 +77,7 @@ class ProductController extends Controller
     {
         $product = Product::with('productType')->where('id', $id)->firstOrFail();
         $productTypes = ProductType::latest()->get();
+
         return view('products.show', [
             'product' => $product,
             'productTypes' => $productTypes
@@ -96,11 +106,16 @@ class ProductController extends Controller
             $photoPath = PhotoController::store($photo);
         }
 
+
+        $buyValue = (int) bcmul($request->input('buy_value'), '100', 0);
+        $value = (int) bcmul($request->input('value'), '100', 0);
+
+
         $product->update([
             'name'            => $request->input('name'),
             'description'     => $request->input('description'),
-            'buy_value'       => $request->input('buy_value'),
-            'value'           => $request->input('value'),
+            'buy_value'       => $buyValue,
+            'value'           => $value,
             'product_type_id' => $request->input('product_type_id'),
             'minimum_amount'  => $request->input('minimum_amount'),
             'maximum_amount'  => $request->input('maximum_amount'),

@@ -5,8 +5,8 @@
         <x-forms.form id="update-form" method="POST" action="/products/{{$product->id}}" enctype="multipart/form-data">
             <x-forms.input label="Nome do Produto" name="name" value="{{$product->name}}" />
             <x-forms.input-text label="Descrição do Produto" name="description" textContent="{{$product->description}}" />
-            <x-forms.input label="Valor do Produto" name="value" value="{{$product->value}}" />
-            <x-forms.input label="Valor de Compra do Produto" name="buy_value" value="{{$product->buy_value}}" />
+            <x-forms.input-money label="Valor do Produto" name="value" value="{{$product->value}}" />
+            <x-forms.input-money label="Valor de Compra do Produto" name="buy_value" value="{{$product->buy_value}}" />
             <x-forms.input type="file" label="Foto do Produto" name="photo" />
 
             <x-forms.select label="Tipo do Produto" name="product_type_id">

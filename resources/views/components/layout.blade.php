@@ -42,8 +42,10 @@
 
 </html>
 
-<script> 
-    $(document).ready(function(){ 
-        $('.moneyInput').mask('##0,00', {reverse: true});
+<script>
+    $(document).ready(function() {
+        $('.moneyInput').mask('##0.00', {
+            reverse: true
+        });
     });
 </script>
