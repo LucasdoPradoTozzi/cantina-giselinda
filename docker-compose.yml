@@ -11,6 +11,7 @@ services:
             - ${APP_PORT}:80
         networks:
             - mysql_net
+        restart: always
         depends_on:
             - db
 

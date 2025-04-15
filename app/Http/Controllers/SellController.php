@@ -19,6 +19,15 @@ class SellController extends Controller
             ->withSum('soldItem', 'sold_price')
             ->paginate(10);
 
+        $sells->getCollection()->transform(function ($sell) {
+
+            $sell->sold_item_sum_sold_price = bcdiv(
+                (string) $sell->sold_item_sum_sold_price,
+                '100',
+                2
+            );
+            return $sell;
+        });
 
         return view('sells.index', ['sells' => $sells]);
     }
@@ -47,14 +56,12 @@ class SellController extends Controller
 
             foreach ($request->products as $product) {
                 $productById = Product::where('id', $product['product_id'])->firstOrFail();
+                $wasAOffer = 0;
 
-                $soldPrice = (!empty($product['sold_price'])) ? $product['sold_price'] : "";
-                $wasAOffer = 1;
+                $itemPrice = bcdiv((string) $productById->value, '100', 2);
+                $soldPrice = bcmul($itemPrice, $product['amount'], 2);
+                $soldPrice = (int) bcmul($soldPrice, '100', 2);
 
-                if (empty($soldPrice)) {
-                    $soldPrice = $product['amount'] * $productById->value;
-                    $wasAOffer = 0;
-                }
 
                 SoldItem::create([
                     'product_id' => $product['product_id'],
@@ -65,7 +72,7 @@ class SellController extends Controller
                     'was_a_offer' => $wasAOffer
                 ]);
 
-                $stock = Stock::where('product_id', $product['product_id'])->firstOrFail();
+                $stock = Stock::where('product_id', $productById->id)->firstOrFail();
                 $stock->quantity -= $product['amount'];
                 $stock->save();
             }
@@ -84,6 +91,13 @@ class SellController extends Controller
             ->where('id', $id)
             ->firstOrFail();
 
+        $sell->sold_item_sum_sold_price = bcdiv((string) $sell->sold_item_sum_sold_price, '100', 2);
+
+        $sell->soldItem = $sell->soldItem->map(function ($item) {
+            $item->sold_price = bcdiv((string) $item->sold_price, '100', 2);
+            $item->price_by_item = bcdiv((string) $item->price_by_item, '100', 2);
+            return $item;
+        });
 
         return view('sells.show', [
             'sell' => $sell

@@ -18,15 +18,11 @@
 
             <button type="button" class="bg-green-800 hover:bg-green-600 rounded py-2 px-6 font-bold" onClick="addItem()" id="add-item-button">Adicionar Novo Item</button>
 
-            <x-forms.input type="number" step="0.01" label="Valor total pago" name="value_paid" placeholder="Valor pago pelo cliente" />
-
-            <button type="button" class="bg-green-800 hover:bg-green-600 rounded py-2 px-6 font-bold" onClick="getFinalPrice()">Calcular Valor Final</button>
             <x-forms.button>Criar</x-forms.button>
 
         </x-forms.form>
     </div>
 </x-layout>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     let itemIndex = 1;
 
@@ -42,7 +38,6 @@
             </x-forms.select>
             <div id="stock-info-${itemIndex}" class="stock-info p-1"></div>
             <x-forms.input required type="number" label="Quantidade" name="products[${itemIndex}][amount]" />
-            <x-forms.input type="number" step="0.01" label="Preço cobrado" name="products[${itemIndex}][sold_price]" placeholder="Preencher apenas caso cobre um preço diferente" />
         `;
         itemContainer.appendChild(newItem);
 
