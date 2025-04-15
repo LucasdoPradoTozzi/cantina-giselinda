@@ -11,6 +11,9 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
+use App\Services\MoneyService;
+
 class SellController extends Controller
 {
     public function index()
@@ -19,13 +22,10 @@ class SellController extends Controller
             ->withSum('soldItem', 'sold_price')
             ->paginate(10);
 
-        $sells->getCollection()->transform(function ($sell) {
+        $moneyService = new MoneyService();
 
-            $sell->sold_item_sum_sold_price = bcdiv(
-                (string) $sell->sold_item_sum_sold_price,
-                '100',
-                2
-            );
+        $sells->getCollection()->transform(function ($sell) use ($moneyService) {
+            $sell->sold_item_sum_sold_price = $moneyService->convertIntegerToString($sell->sold_item_sum_sold_price);
             return $sell;
         });
 
@@ -54,14 +54,13 @@ class SellController extends Controller
 
             $idSell = $sell->id;
 
+            $moneyService = new MoneyService();
+
             foreach ($request->products as $product) {
                 $productById = Product::where('id', $product['product_id'])->firstOrFail();
                 $wasAOffer = 0;
 
-                $itemPrice = bcdiv((string) $productById->value, '100', 2);
-                $soldPrice = bcmul($itemPrice, $product['amount'], 2);
-                $soldPrice = (int) bcmul($soldPrice, '100', 2);
-
+                $soldPrice = $moneyService->getMultiplicationIntegerValue($productById->value, $product['amount']);
 
                 SoldItem::create([
                     'product_id' => $product['product_id'],
@@ -91,11 +90,13 @@ class SellController extends Controller
             ->where('id', $id)
             ->firstOrFail();
 
-        $sell->sold_item_sum_sold_price = bcdiv((string) $sell->sold_item_sum_sold_price, '100', 2);
+        $moneyService = new MoneyService();
 
-        $sell->soldItem = $sell->soldItem->map(function ($item) {
-            $item->sold_price = bcdiv((string) $item->sold_price, '100', 2);
-            $item->price_by_item = bcdiv((string) $item->price_by_item, '100', 2);
+        $sell->sold_item_sum_sold_price = $moneyService->convertIntegerToString($sell->sold_item_sum_sold_price);
+
+        $sell->soldItem = $sell->soldItem->map(function ($item) use ($moneyService) {
+            $item->sold_price = $moneyService->convertIntegerToString($item->sold_price);
+            $item->price_by_item = $moneyService->convertIntegerToString($item->price_by_item);
             return $item;
         });
 

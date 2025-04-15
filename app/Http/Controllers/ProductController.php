@@ -19,8 +19,10 @@ class ProductController extends Controller
             ->with('productType')
             ->paginate(10);
 
-        $products->getCollection()->transform(function ($product) {
-            $product->value = bcdiv((string) $product->value, '100', 2);
+        $moneyService = new MoneyService();
+
+        $products->getCollection()->transform(function ($product) use ($moneyService) {
+            $product->value = $moneyService->convertIntegerToString($product->value);
             return $product;
         });
 

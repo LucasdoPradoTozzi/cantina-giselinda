@@ -10,6 +10,8 @@ use Dotenv\Validator;
 use Exception;
 use Illuminate\Http\Request;
 
+use App\Services\MoneyService;
+
 class BuyController extends Controller
 {
     /**
@@ -21,13 +23,12 @@ class BuyController extends Controller
             ->withSum('purchaseItem', 'total_price')
             ->paginate(10);
 
-        $buys->getCollection()->transform(function ($buy) {
+        $moneyService = new MoneyService();
 
-            $buy->purchase_item_sum_total_price = bcdiv(
-                (string) $buy->purchase_item_sum_total_price,
-                '100',
-                2
-            );
+        $buys->getCollection()->transform(function ($buy) use ($moneyService) {
+            if (isset($buy->purchase_item_sum_total_price)) {
+                $buy->purchase_item_sum_total_price = $moneyService->convertIntegerToString($buy->purchase_item_sum_total_price);
+            }
             return $buy;
         });
 
@@ -58,19 +59,18 @@ class BuyController extends Controller
         $idBuy = $buy->id;
 
 
+        $moneyService = new MoneyService();
 
         foreach ($request->products as $purchasedProduct) {
 
             $product = Product::where('id', $purchasedProduct['product_id'])->first();
             if (!$product) throw new Exception('Produto inexistente.');
 
-            $priceByItem = (!empty($purchasedProduct['price_by_item'])) ? $purchasedProduct['price_by_item']
-                : bcdiv((string) $product->buy_value, '100', 2);
+            $priceByItem = (!empty($purchasedProduct['price_by_item']))
+                ? $moneyService->convertStringToInteger($purchasedProduct['price_by_item'])
+                : $product->buy_value;
 
-            $totalPrice = bcmul($priceByItem, (string) $purchasedProduct['amount'], 2);
-
-            $priceByItem = (int) bcmul($priceByItem, '100', 2);
-            $totalPrice = (int) bcmul($totalPrice, '100', 2);
+            $totalPrice = $moneyService->getMultiplicationIntegerValue($priceByItem, $purchasedProduct['amount']);
 
             PurchaseItem::create([
                 'product_id' => $product->id,
@@ -97,11 +97,13 @@ class BuyController extends Controller
             ->where('id', $id)
             ->firstOrFail();
 
-        $buy->purchase_item_sum_total_price = bcdiv((string) $buy->purchase_item_sum_total_price, '100', 2);
+        $moneyService = new MoneyService();
 
-        $buy->purchaseItem = $buy->purchaseItem->map(function ($item) {
-            $item->total_price = bcdiv((string) $item->total_price, '100', 2);
-            $item->price_by_item = bcdiv((string) $item->price_by_item, '100', 2);
+        $buy->purchase_item_sum_total_price = $moneyService->convertIntegerToString($buy->purchase_item_sum_total_price);
+
+        $buy->purchaseItem = $buy->purchaseItem->map(function ($item) use ($moneyService) {
+            $item->total_price = $moneyService->convertIntegerToString($item->total_price);
+            $item->price_by_item = $moneyService->convertIntegerToString($item->price_by_item);
             return $item;
         });
 
