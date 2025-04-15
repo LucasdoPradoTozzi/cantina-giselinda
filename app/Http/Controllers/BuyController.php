@@ -81,7 +81,7 @@ class BuyController extends Controller
             ]);
 
             $stock = Stock::where('product_id', $product->id)->firstOrFail();
-            $stock->quantity += $product['amount'];
+            $stock->quantity += $purchasedProduct['amount'];
             $stock->save();
         }
         return redirect('/buys');
