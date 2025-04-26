@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use App\Services\MoneyService;
+
+
 class Product extends Model
 {
     use HasFactory;
@@ -32,5 +35,10 @@ class Product extends Model
     public function soldItem(): HasMany
     {
         return $this->hasMany(SoldItem::class);
+    }
+
+    public function getValueForShowAttribute()
+    {
+        return app(MoneyService::class)->convertIntegerToString($this->value);
     }
 }
