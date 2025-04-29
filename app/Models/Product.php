@@ -41,4 +41,9 @@ class Product extends Model
     {
         return app(MoneyService::class)->convertIntegerToString($this->value);
     }
+
+    public function getBuyValueForShowAttribute()
+    {
+        return app(MoneyService::class)->convertIntegerToString($this->buy_value);
+    }
 }
