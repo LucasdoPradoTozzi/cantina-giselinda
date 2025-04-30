@@ -2,11 +2,14 @@ services:
 
     php:
         container_name: ${APP_NAME}-php
-        volumes:
-            - .:/var/www/html
         build:
             context: .
             dockerfile: docker/php/Dockerfile
+            args:
+                user: lucas
+                uid: 1000
+        volumes:
+            - .:/var/www/html
         ports:
             - ${APP_PORT}:80
         networks:

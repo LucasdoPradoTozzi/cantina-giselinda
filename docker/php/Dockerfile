@@ -1,31 +1,33 @@
 FROM php:8.2-apache
 
-# Instala dependências necessárias
+ARG user
+ARG uid
+
+# Instala dependências
 RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    unzip \
-    default-mysql-client \
+    libzip-dev unzip default-mysql-client \
     && docker-php-ext-install zip pdo pdo_mysql bcmath
 
-
-
-# Instala o Composer
+# Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copia os arquivos da aplicação Laravel para o contêiner
+# Cria usuário não-root
+RUN useradd -G www-data -u $uid -d /home/$user -m $user && \
+    mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
+
+# Copia a aplicação
 COPY . /var/www/html
 
-# Copia o arquivo de configuração do Apache para o contêiner
+# Permissões
+RUN chown -R $user:www-data /var/www/html && \
+    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Configura Apache
 COPY ./docker/php/000-default.conf /etc/apache2/sites-available/000-default.conf
-
-# Dá permissões para a pasta storage e bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Habilita o módulo rewrite para o Laravel
 RUN a2enmod rewrite
 
-# Reinicia o Apache para garantir que as configurações sejam aplicadas
-RUN service apache2 restart
+# Troca o usuário para não-root
+USER $user
 
-# Comando para iniciar o Apache
 CMD ["apache2-foreground"]
