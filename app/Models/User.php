@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'photo_path',
+        'is_approved'
     ];
 
     /**
@@ -43,5 +45,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the user's first name.
+     *
+     * @return string|null
+     */
+    public function getFirstNameAttribute()
+    {
+        if ($this->name) {
+            $names = explode(' ', $this->name);
+            return $names[0] ?? null;
+        }
+
+        return null;
     }
 }

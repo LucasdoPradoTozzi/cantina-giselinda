@@ -37,7 +37,6 @@
 
 <body class="bg-black text-white font-hanken-grotesk pb-20">
     {{ $slot }}
-    @livewireScripts
 </body>
 
 </html>
