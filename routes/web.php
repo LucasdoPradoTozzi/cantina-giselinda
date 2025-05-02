@@ -9,9 +9,11 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\WasteController;
+use App\Livewire\CreateProduct;
 use App\Livewire\CreateSell;
 use App\Livewire\CreateUser;
 use App\Livewire\Login;
+use App\Livewire\ProductsIndex;
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', CreateUser::class)->name('register');
@@ -24,8 +26,8 @@ Route::middleware('auth')->group(function () {
 
 
     //PRODUCTS ROUTES
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/products/new', [ProductController::class, 'create']);
+    Route::get('/products', ProductsIndex::class)->name('products.index');
+    Route::get('/products/new', CreateProduct::class);
     Route::post('/products', [ProductController::class, 'store']);
     Route::get('/products/{id}', [ProductController::class, 'show']);
     Route::post('/products/{id}', [ProductController::class, 'update']);

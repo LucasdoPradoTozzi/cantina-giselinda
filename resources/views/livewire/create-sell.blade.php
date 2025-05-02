@@ -38,91 +38,92 @@
                 </button>
             </div>
         </div>
+    </form>
 
-        <div class="fixed right-0 top-0 h-full w-80 bg-gray-900 text-white p-4 shadow-lg z-50 flex flex-col">
-            <h2 class="text-xl font-bold mb-4">Carrinho</h2>
+    <div class="fixed right-0 top-0 h-full w-80 bg-gray-900 text-white p-4 shadow-lg z-50 flex flex-col">
+        <h2 class="text-xl font-bold mb-4">Carrinho</h2>
 
-            <div class="flex-1 overflow-y-auto pr-2">
-                @forelse ($items as $index => $item)
-                @php
-                $product = $products->firstWhere('id', $item['product_id']);
-                @endphp
+        <div class="flex-1 overflow-y-auto pr-2">
+            @forelse ($items as $index => $item)
+            @php
+            $product = $products->firstWhere('id', $item['product_id']);
+            @endphp
 
-                @if ($product)
-                <div class="flex flex-col mb-4 border border-gray-700 rounded-lg p-4 shadow-sm">
-                    <div class="flex items-center">
-                        <img src="{{ ($product->photo_path) ? asset('storage/photos/' . $product->photo_path) : 'https://via.placeholder.com/50' }}"
-                            alt="{{ $product->name }}"
-                            class="w-16 h-16 object-cover rounded mr-4" />
+            @if ($product)
+            <div class="flex flex-col mb-4 border border-gray-700 rounded-lg p-4 shadow-sm">
+                <div class="flex items-center">
+                    <img src="{{ $product->photo_path ? asset('storage/photos/' . $product->photo_path) : asset('images/noPhoto.jpg') }}"
+                        alt="{{ $product->name }}"
+                        class="w-16 h-16 object-cover rounded mr-4" />
 
-                        <div class="flex flex-col">
-                            <div class="font-semibold text-base">{{ $product->name }}</div>
-                            <div class="text-sm text-gray-400">R$ {{ $product->getValueForShowAttribute() }}</div>
-                        </div>
-
-                        <button type="button" wire:click="removeItem({{ $index }})"
-                            class="ml-auto text-red-400 hover:text-red-600 text-xl">
-                            ✕
-                        </button>
+                    <div class="flex flex-col">
+                        <div class="font-semibold text-base">{{ $product->name }}</div>
+                        <div class="text-sm text-gray-400">R$ {{ $product->getValueForShowAttribute() }}</div>
                     </div>
 
-                    <div class="flex items-center mt-4">
-                        <button type="button" wire:click="decreaseQuantity({{ $index }})"
-                            class="px-2 py-1 bg-red-600 rounded hover:bg-red-700">-</button>
-                        <span class="mx-3">{{ $item['amount'] }}</span>
-                        <button type="button" wire:click="increaseQuantity({{ $index }})"
-                            class="px-2 py-1 bg-green-600 rounded hover:bg-green-700">+</button>
-                    </div>
-
-                    <div class="flex flex-col mt-2">
-                        <span class="{{ $product->stock->quantity >= $item['amount'] ? 'text-green-400' : 'text-red-400' }}">
-                            Em Estoque: {{ $product->stock->quantity }}
-                        </span>
-
-                        @if($product->stock->quantity < $item['amount'])
-                            <div class="bg-red-600 text-white p-2 mt-2 rounded text-xs">
-                            Estoque insuficiente para a quantidade desejada.
-                    </div>
-                    @endif
+                    <button type="button" wire:click="removeItem({{ $index }})"
+                        class="ml-auto text-red-400 hover:text-red-600 text-xl">
+                        ✕
+                    </button>
                 </div>
 
-                <div class="text-sm mt-2">
-                    Subtotal: R$ {{ $item['total_value_to_show'] }}
+                <div class="flex items-center mt-4">
+                    <button type="button" wire:click="decreaseQuantity({{ $index }})"
+                        class="px-2 py-1 bg-red-600 rounded hover:bg-red-700">-</button>
+                    <span class="mx-3">{{ $item['amount'] }}</span>
+                    <button type="button" wire:click="increaseQuantity({{ $index }})"
+                        class="px-2 py-1 bg-green-600 rounded hover:bg-green-700">+</button>
                 </div>
 
-                {{-- Exibe erros de validação, se existirem --}}
-                @error("items.$index.product_id")
-                <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                @enderror
+                <div class="flex flex-col mt-2">
+                    <span class="{{ $product->stock->quantity >= $item['amount'] ? 'text-green-400' : 'text-red-400' }}">
+                        Em Estoque: {{ $product->stock->quantity }}
+                    </span>
 
-                @error("items.$index.amount")
-                <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                @enderror
+                    @if($product->stock->quantity < $item['amount'])
+                        <div class="bg-red-600 text-white p-2 mt-2 rounded text-xs">
+                        Estoque insuficiente para a quantidade desejada.
+                </div>
+                @endif
             </div>
-            @endif
-            @empty
-            <p class="text-gray-400">Seu carrinho está vazio.</p>
-            @endforelse
-        </div>
 
-        <!-- Área fixa -->
-        <div class="mt-4 pt-4 border-t border-gray-700 font-semibold">
-            Total: R$ {{ $totalToShow }}
-
-            <button
-                type="button"
-                wire:loading.attr="disabled"
-                wire:click="submitSell"
-                class="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-lg text-white font-semibold w-full disabled:opacity-50">
-                Finalizar venda
-            </button>
-
-            @if ($errors->has('purchase'))
-            <div class="bg-red-600 text-white p-2 mb-4 rounded">
-                {{ $errors->first('purchase') }}
+            <div class="text-sm mt-2">
+                Subtotal: R$ {{ $item['total_value_to_show'] }}
             </div>
-            @endif
+
+            {{-- Exibe erros de validação, se existirem --}}
+            @error("items.$index.product_id")
+            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
+            @enderror
+
+            @error("items.$index.amount")
+            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
+            @enderror
         </div>
+        @endif
+        @empty
+        <p class="text-gray-400">Seu carrinho está vazio.</p>
+        @endforelse
+    </div>
+
+    <!-- Área fixa -->
+    <div class="mt-4 pt-4 border-t border-gray-700 font-semibold">
+        Total: R$ {{ $totalToShow }}
+
+        <button
+            type="button"
+            wire:loading.attr="disabled"
+            wire:click="submitSell"
+            class="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-lg text-white font-semibold w-full disabled:opacity-50">
+            Finalizar venda
+        </button>
+
+        @if ($errors->has('purchase'))
+        <div class="bg-red-600 text-white p-2 mb-4 rounded">
+            {{ $errors->first('purchase') }}
+        </div>
+        @endif
+    </div>
 </div>
-</form>
+
 </div>

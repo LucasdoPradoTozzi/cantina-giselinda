@@ -72,7 +72,7 @@
                 @if ($product)
                 <div class="flex flex-col mb-4 border border-gray-700 rounded-lg p-4 shadow-sm">
                     <div class="flex items-center">
-                        <img src="{{ ($product->photo_path) ? asset('storage/photos/' . $product->photo_path) : 'https://via.placeholder.com/50' }}"
+                        <img src="{{ $product->photo_path ? asset('storage/photos/' . $product->photo_path) : asset('images/noPhoto.jpg') }}"
                             alt="{{ $product->name }}"
                             class="w-16 h-16 object-cover rounded mr-4" />
 

@@ -54,14 +54,9 @@ class ProductController extends Controller
 
             $buyValue = $moneyService->convertStringToInteger($request->input('buy_value'));
             $value = $moneyService->convertStringToInteger($request->input('value'));
+            $photo = ($request->hasFile('photo')) ? $request->file('photo') : null;
 
-            $photoPath = "noPhoto.jpg";
-
-            if ($request->hasFile('photo')) {
-                $photo = $request->file('photo');
-
-                $photoPath = PhotoController::store($photo);
-            }
+            $photoPath =  !empty($photo) ? PhotoController::store($photo) : null;
 
             $product = Product::create([
                 'name'            => $request->input('name'),

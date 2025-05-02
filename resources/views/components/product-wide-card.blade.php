@@ -2,7 +2,7 @@
 
 <x-panel class="flex gap-x-6">
     <div>
-        <img src="{{ asset('storage/photos/' . $product->photo_path) }}" alt="{{$product->name}}" class="w-32 h-32 rounded-xl">
+        <img src="{{$product->photo_path ? asset('storage/photos/' . $product->photo_path) : asset('images/noPhoto.jpg') }}" alt="{{$product->name}}" class="w-32 h-32 rounded-xl">
     </div>
 
     <div class="flex-1 flex flex-col">
@@ -16,7 +16,7 @@
 
         <p class="text-base mt-3"> {{ $product->description }} </p>
 
-        <x-show-price>{{ $product->value }}</x-show-price>
+        <x-show-price>{{ $product->value_for_show }}</x-show-price>
     </div>
 
     <div>

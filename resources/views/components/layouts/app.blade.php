@@ -33,6 +33,7 @@
                 <x-nav-link href="/wastes" :active="request()->is('wastes')">Desperdício</x-nav-link>
             </div>
         </nav>
+
     </div>
     @endauth
 
