@@ -1,14 +1,21 @@
 <div class="p-2.5">
-    <div class="p-4">
-        <x-link-button href="/products/new">Criar Novo Produto</x-link-button>
+    <div class="flex justify-between items-center flex-wrap gap-4 p-2.5">
+
+        <input
+            wire:model.live.debounce.300ms="search"
+            type="text"
+            placeholder="Buscar produto por nome..."
+            class="border rounded-lg px-4 py-2 w-full max-w-md text-black" />
+
+        <div>
+            <x-link-button
+                href="/products/new"
+                class="h-full py-2 px-4 min-h-[42px]">
+                Criar Novo Produto
+            </x-link-button>
+        </div>
+
     </div>
-
-    <input
-        wire:model.live.debounce.300ms="search"
-        type="text"
-        placeholder="Buscar produto por nome..."
-        class="border rounded-lg px-4 py-2 w-full max-w-md text-black" />
-
 
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
