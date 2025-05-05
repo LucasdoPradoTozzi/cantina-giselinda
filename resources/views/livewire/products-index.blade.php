@@ -7,13 +7,12 @@
             placeholder="Buscar produto por nome..."
             class="border rounded-lg px-4 py-2 w-full max-w-md text-black" />
 
-        <div>
-            <x-link-button
-                href="/products/new"
-                class="h-full py-2 px-4 min-h-[42px]">
-                Criar Novo Produto
-            </x-link-button>
-        </div>
+        <a
+            href="/products/new"
+            class="h-full py-2 px-4 min-h-[42px] bg-gray-800 hover:bg-gray-600 rounded font-bold">
+            Criar Novo Produto
+        </a>
+
 
     </div>
 
