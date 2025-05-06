@@ -1,3 +1,5 @@
+@section('title', 'Listagem de Produtos')
+
 <div class="p-2.5">
     <div class="flex justify-between items-center flex-wrap gap-4 p-2.5">
 

@@ -9,11 +9,18 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\WasteController;
+use App\Livewire\BuysIndex;
+use App\Livewire\BuysShow;
+use App\Livewire\CreateBuy;
 use App\Livewire\CreateProduct;
 use App\Livewire\CreateSell;
 use App\Livewire\CreateUser;
 use App\Livewire\Login;
 use App\Livewire\ProductsIndex;
+use App\Livewire\ProductTypesIndex;
+use App\Livewire\SellIndex;
+use App\Livewire\ShowSell;
+use App\Livewire\StockIndex;
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', CreateUser::class)->name('register');
@@ -33,28 +40,27 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/{id}', [ProductController::class, 'update']);
     Route::post('/products/{id}/delete', [ProductController::class, 'delete']);
 
+
     //PRODUCTS ROUTES
-    Route::get('/product-types', [ProductTypeController::class, 'index'])->name('productTypes.index');
+    Route::get('/product-types', ProductTypesIndex::class)->name('productTypes.index');
     Route::get('/product-type/new', [ProductTypeController::class, 'create']);
     Route::post('/product-type', [ProductTypeController::class, 'store']);
     Route::get('/product-type/{id}', [ProductTypeController::class, 'show']);
     Route::post('/product-type/{id}', [ProductTypeController::class, 'update']);
 
     //STOCK
-    Route::get('/stock', [StockController::class, 'index']);
-    Route::get('/stock/{id}', [StockController::class, 'getStockByProductId']);
+    Route::get('/stock', StockIndex::class)->name('stock.index');
 
     //BUYS
-    Route::get('/buys', [BuyController::class, 'index']);
-    Route::get('/buys/new', [BuyController::class, 'create']);
-    Route::get('/buys/{id}', [BuyController::class, 'show']);
+    Route::get('/buys', BuysIndex::class)->name('buys.index');
+    Route::get('/buys/new', CreateBuy::class);
+    Route::get('/buys/{id}', BuysShow::class)->name('buys.show');
     Route::post('/buys', [BuyController::class, 'store']);
 
     //SELLS
     Route::get('/sells/new', CreateSell::class);
-    Route::get('/sells', [SellController::class, 'index']);
-    Route::post('/sells', [SellController::class, 'store']);
-    Route::get('/sells/{id}', [SellController::class, 'show']);
+    Route::get('/sells', SellIndex::class)->name('productTypes.index');
+    Route::get('/sells/{id}', ShowSell::class)->name('sells.show');
 
     //WASTES
     Route::get('/wastes/new', [WasteController::class, 'create']);

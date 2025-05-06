@@ -1,6 +1,7 @@
-<x-layout>
+@section('title', 'Listagem de Vendas')
+<div>
     <div class="p-4">
-        <x-link-button href="/sells/new">Criar Nova Venda</x-link-button>
+        <x-link-button href="/sells/new" wire:navigate>Criar Nova Venda</x-link-button>
     </div>
     <div class="p-4">
         @foreach($sells as $sell)
@@ -11,4 +12,4 @@
         @endif
     </div>
     {{$sells->links()}}
-</x-layout>
+</div>

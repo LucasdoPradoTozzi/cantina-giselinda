@@ -1,6 +1,6 @@
+@section('title', 'Criar Novo Produto')
 <div>
     <div class="pt-4">
-        <x-page-heading>Criar Novo Produto</x-page-heading>
 
         <x-forms.form wire:submit.prevent="save" enctype="multipart/form-data">
             <div class="mb-4 flex flex-col items-center justify-center">

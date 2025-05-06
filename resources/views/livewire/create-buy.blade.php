@@ -1,6 +1,5 @@
+@section('title', 'Criar Nova Compra')
 <div>
-    <x-page-heading>Criar Nova Venda</x-page-heading>
-
     <form wire:submit.prevent="submit">
         <div class="flex justify-center">
             <div class="bg-gray-800 rounded-lg p-6 text-white space-y-4 w-full max-w-xl">
