@@ -15,6 +15,7 @@ use App\Livewire\CreateBuy;
 use App\Livewire\CreateProduct;
 use App\Livewire\CreateSell;
 use App\Livewire\CreateUser;
+use App\Livewire\CustomerCreate;
 use App\Livewire\Login;
 use App\Livewire\ProductsIndex;
 use App\Livewire\ProductTypesIndex;
@@ -58,8 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/buys', [BuyController::class, 'store']);
 
     //SELLS
-    Route::get('/sells/new', CreateSell::class);
-    Route::get('/sells', SellIndex::class)->name('productTypes.index');
+    Route::get('/sells/new', CreateSell::class)->name('sells.create');
+    Route::get('/sells', SellIndex::class)->name('sells.index');
     Route::get('/sells/{id}', ShowSell::class)->name('sells.show');
 
     //WASTES
@@ -70,7 +71,7 @@ Route::middleware('auth')->group(function () {
 
     //CUSTOMERS
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
-    Route::get('/customers/new', [CustomerController::class, 'create']);
+    Route::get('/customers/new', CustomerCreate::class)->name('customer.create');
     Route::post('/customers', [CustomerController::class, 'store']);
 
     //DASHBOARD

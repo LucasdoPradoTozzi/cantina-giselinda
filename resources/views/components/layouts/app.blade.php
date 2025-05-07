@@ -26,7 +26,7 @@
             <div class="hidden lg:flex lg:gap-x-12">
                 <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
                 <x-nav-link href="/product-types" :active="request()->is('product-types')">Tipos de Produto</x-nav-link>
-                <x-nav-link href="/products" :active="request()->is('products')" wire:navigate>Produtos</x-nav-link>
+                <x-nav-link href="/products" :active="request()->is('products')">Produtos</x-nav-link>
                 <x-nav-link href="/stock" :active="request()->is('stock')">Estoque</x-nav-link>
                 <x-nav-link href="/buys" :active="request()->is('buys')">Compras</x-nav-link>
                 <x-nav-link href="/sells" :active="request()->is('sells')">Vendas</x-nav-link>
@@ -52,7 +52,7 @@
 
 
     <h1 class="text-5xl font-extrabold text-center p-4">
-        @yield('title', 'Título Padrão')
+        @yield('title', '')
     </h1>
 
     {{ $slot }}

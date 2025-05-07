@@ -41,7 +41,7 @@ class ProductFactory extends Factory
             'value' => floatval(fake()->numberBetween(16, 30)),
             'minimum_amount' => $this->faker->numberBetween(1, 10),
             'maximum_amount' => $this->faker->numberBetween(11, 20),
-            'photo_path' => "noPhoto.jpg"
+            'photo_path' => null
         ];
     }
 }

@@ -29,6 +29,7 @@
             <x-forms.input-money wire:model.live.debounce.300ms="buyValue" label="Valor de Compra do Produto" name="buyValue" />
 
             <x-forms.select wire:model="productTypeId" label="Tipo do Produto" name="product_type_id">
+                <option value=""></option>
                 @foreach($productTypes as $productType)
                 <option value="{{$productType->id}}">
                     {{$productType->name}}

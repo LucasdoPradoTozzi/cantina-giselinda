@@ -14,8 +14,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sells', function (Blueprint $table) {
-            $table->foreignIdFor(Customer::class)->nullable();
-            $table->tinyInteger('paid')->nullable();
+            $table->foreignIdFor(Customer::class)->nullable()->constrained();
+            $table->integer('sale_value')->nullable();
+            $table->integer('paid_value')->nullable();
         });
     }
 
@@ -25,7 +26,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('sells', function (Blueprint $table) {
-            //
+            $table->dropForeign(['customer_id']); // Se a chave estrangeira foi criada com o nome 'customer_id'
+            $table->dropColumn('customer_id');
+            $table->dropColumn('sale_value');
+            $table->dropColumn('paid_value');
         });
     }
 };

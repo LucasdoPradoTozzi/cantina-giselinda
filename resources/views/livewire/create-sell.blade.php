@@ -40,6 +40,83 @@
         </div>
     </form>
 
+    <div class="bg-gray-800 rounded-lg p-6 text-white space-y-4 w-full max-w-xl">
+        <label for="paymentMethod" class="block mb-2 font-semibold">Forma de Pagamento</label>
+        <select id="paymentMethod" wire:model="paymentMethod" class="rounded-xl bg-black/100 border border-white/10 px-5 py-4 w-full">
+            @foreach (\App\Enums\PaymentMethod::cases() as $method)
+            <option value="{{ $method->value }}">{{ $method->label() }}</option>
+            @endforeach
+        </select>
+        <div class="flex items-center">
+            <input
+                id="isDeferredPayment"
+                type="checkbox"
+                wire:model.live="isDeferredPayment"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+            <label for="isDeferredPayment" class="ml-2 block text-sm">
+                Fiado?
+            </label>
+        </div>
+
+        <div class="mb-4" @if(!$isDeferredPayment) hidden @endif>
+            <x-forms.input-money
+                wire:model="payingNow"
+                name="payingNow"
+                label="Está pagando algo agora?"
+                placeholder="Preencha apenas se for pagar algo agora." />
+        </div>
+
+        <label for="product_id" class="block mb-2 font-semibold">Cliente</label>
+        <select
+            wire:model.live="selectedCustomerId"
+            id="customer_id"
+            class="rounded-xl bg-black/100 border border-white/10 px-5 py-4 w-full">
+            <option value="">Selecione um Cliente</option>
+            @foreach($customers as $customer)
+            <option value="{{ $customer->id }}">
+                {{ $customer->name }}
+            </option>
+            @endforeach
+        </select>
+        @if ($errors->has('selectedCustomerId'))
+        <div class="bg-red-600 text-white p-2 mb-4 rounded">
+            {{ $errors->first('selectedCustomerId') }}
+        </div>
+        @endif
+
+        @if($selectedCustomerId && $selectedCustomer)
+        <div class="bg-gray-900 p-5 rounded-xl mt-6 space-y-4 border border-white/10">
+            <div class="flex items-center gap-4">
+                <img src="{{ ($selectedCustomer->photo_path) ? asset('storage/photos/' . $selectedCustomer->photo_path) :  asset('images/noPhoto.jpg') }}"
+                    alt="Foto do Cliente"
+                    class="w-16 h-16 rounded-full border border-white/20 object-cover">
+                <div>
+                    <div class="text-lg font-semibold">{{ $selectedCustomer->name }}</div>
+
+                </div>
+            </div>
+            <div class="space-y-1">
+                <div>
+                    <span class="font-semibold">Aniversário:</span>
+                    {{ $selectedCustomerBirthday }} ({{ $selectedCustomerAge }} anos)
+                </div>
+
+                @if ($selectedCustomerIsBirthday)
+                <div class="text-yellow-400 font-semibold">
+                    🎉 É aniversário do cliente hoje!! Que tal um desconto?
+                </div>
+                @elseif ($selectedCustomerDaysUntilBirthday !== null && $selectedCustomerDaysUntilBirthday <= 30)
+                    <div class="text-green-400">
+                    🎂 Faltam {{ $selectedCustomerDaysUntilBirthday }} dias para o aniversário.
+                    @endif
+            </div>
+        </div>
+        @endif
+    </div>
+
+
+
+
     <div class="fixed right-0 top-0 h-full w-80 bg-gray-900 text-white p-4 shadow-lg z-50 flex flex-col">
         <h2 class="text-xl font-bold mb-4">Carrinho</h2>
 

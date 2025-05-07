@@ -30,7 +30,7 @@ class CreateProduct extends Component
     public $maximumAmount = 2;
 
     protected $rules = [
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:1024',
         'name' => 'required|string|max:255',
         'description' => 'required|string',
         'value' => 'required|string|min:3',

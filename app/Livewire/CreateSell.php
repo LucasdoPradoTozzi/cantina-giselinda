@@ -2,11 +2,14 @@
 
 namespace App\Livewire;
 
+use Carbon\Carbon;
+use App\Models\Customer;
 use Livewire\Component;
 
 use App\Services\MoneyService;
 
 use App\Models\Product;
+use App\Models\SalesPayment;
 use App\Models\Sell;
 use App\Models\SoldItem;
 use App\Models\Stock;
@@ -24,14 +27,60 @@ class CreateSell extends Component
     public $selectedProductId = null;
     public $selectedQuantity = 1;
 
+    public $customers;
+
+    public $selectedCustomer;
+    public $selectedCustomerId;
+
+    public $selectedCustomerBirthday;
+    public $selectedCustomerAge;
+    public $selectedCustomerDaysUntilBirthday;
+    public $selectedCustomerIsBirthday;
+
+    public $paymentMethod;
+
+    public bool $isDeferredPayment = false;
+    public ?int $payingNow = null;
+
+
 
     public function mount()
     {
 
         $productList = Product::with('stock')->get();
-
         $this->products = $productList;
+
+        $customers = Customer::all();
+        $this->customers = $customers;
     }
+
+    public function updatedSelectedCustomerId($id)
+    {
+        $this->selectedCustomer = Customer::find($id);
+
+
+        if ($this->selectedCustomer && $this->selectedCustomer->birthday) {
+            $birthday = Carbon::parse($this->selectedCustomer->birthday);
+            $this->selectedCustomerBirthday = $birthday->format('d/m');
+            $this->selectedCustomerAge = $birthday->age;
+
+            $today = Carbon::today();
+            $nextBirthday = $birthday->copy()->year($today->year);
+            if ($nextBirthday->isPast()) {
+                $nextBirthday->addYear();
+            }
+
+            $daysUntil = $today->diffInDays($nextBirthday, false);
+            $this->selectedCustomerDaysUntilBirthday = $daysUntil;
+            $this->selectedCustomerIsBirthday = $birthday->isBirthday();
+        } else {
+            $this->selectedCustomerBirthday = null;
+            $this->selectedCustomerAge = null;
+            $this->selectedCustomerDaysUntilBirthday = null;
+            $this->selectedCustomerIsBirthday = false;
+        }
+    }
+
 
     public function increaseQuantity($index)
     {
@@ -147,6 +196,22 @@ class CreateSell extends Component
             'items.*.amount.min' => 'Quantidade deve ser no mínimo 1.',
         ]);
 
+        if ($this->isDeferredPayment) {
+            if (empty($this->selectedCustomerId)) {
+                $this->addError('purchase', 'Cliente é obrigatório para compras fiado');
+                return;
+            }
+
+            if (!empty($this->payingNow) && ($this->payingNow <= 0 || strlen($this->payingNow) < 3)) {
+                $this->addError('payingNow', 'O valor mínimo é de R$ 0,01. Caso contrário, não preencha nada.');
+                return;
+            }
+
+            $this->payingNow = (int) $this->payingNow;
+        }
+
+
+
 
         try {
 
@@ -154,10 +219,13 @@ class CreateSell extends Component
             DB::beginTransaction();
 
             $sell = Sell::create([
-                'title' => now()->format('d/m/Y H:i')
+                'title' => now()->format('d/m/Y H:i'),
+                'customer_id' => $this->selectedCustomerId ?? null
             ]);
 
-            $SellId = $sell->id;
+            $sellId = $sell->id;
+
+            $saleValue = 0;
 
             $moneyService = new MoneyService();
 
@@ -169,9 +237,11 @@ class CreateSell extends Component
 
                 $soldPrice = $moneyService->getMultiplicationIntegerValue($productById->value, $product['amount']);
 
+                $saleValue += $soldPrice;
+
                 SoldItem::create([
                     'product_id' => $product['product_id'],
-                    'sell_id' => $SellId,
+                    'sell_id' => $sellId,
                     'amount' => $product['amount'],
                     'price_by_item' => $productById->value,
                     'sold_price' => $soldPrice,
@@ -192,6 +262,20 @@ class CreateSell extends Component
                 $stock->quantity -= $product['amount'];
                 $stock->save();
             }
+
+            $paidValue = (!$this->isDeferredPayment) ? $saleValue : $this->payingNow;
+
+            if ($paidValue > 0) {
+                $salePayment = SalesPayment::create([
+                    'sell_id' => $sellId,
+                    'value' => $paidValue
+                ]);
+            }
+
+
+            $sell->sale_value = $saleValue;
+            $sell->paid_value = $paidValue;
+            $sell->save();
 
             DB::commit();
             return redirect('/sells');

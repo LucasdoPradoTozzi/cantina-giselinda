@@ -2,25 +2,28 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentMethod;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class CustomerPayment extends Model
+class SalesPayment extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function customer(): BelongsTo
+
+    public function sell(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Sell::class);
     }
 
-    public function sell(): BelongsToMany
-    {
-        return $this->belongsToMany(Sell::class);
-    }
+
+    protected $casts = [
+        'payment_method' => PaymentMethod::class,
+    ];
 }

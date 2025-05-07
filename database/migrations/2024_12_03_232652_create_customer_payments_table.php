@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customer_payments', function (Blueprint $table) {
+        Schema::create('sales_payments', function (Blueprint $table) {
             $table->id();
             $table->integer('value');
-            $table->foreignId(Sell::class);
+            $table->enum('payment_method', ['pix', 'cash', 'credit_card', 'debit_card']);
+            $table->foreignIdFor(Sell::class);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customer_payments');
+        Schema::dropIfExists('sales_payments');
     }
 };

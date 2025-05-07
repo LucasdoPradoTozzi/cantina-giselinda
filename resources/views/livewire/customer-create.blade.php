@@ -1,7 +1,6 @@
-@section('title', 'Cadastrar-se')
+@section('title', 'Criar Novo Cliente')
 <div class="flex items-center justify-center min-h-screen">
     <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
-
         <form wire:submit.prevent="create" class="space-y-5">
 
             <div class="mb-4 flex flex-col items-center justify-center">
@@ -24,7 +23,7 @@
                     @enderror
                 </div>
             </div>
-            <!-- Nome do Usuário -->
+
             <div>
                 <label class="block mb-1 text-sm text-gray-800">Nome</label>
                 <input
@@ -32,57 +31,84 @@
                     id="name"
                     class="w-full text-black border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     placeholder="Digite seu nome"
-                    wire:model="name" />
+                    wire:model="name"
+                    maxlength="255" />
                 @error('name')
                 <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
                 @enderror
             </div>
 
-            <!-- Email -->
+            <div>
+                <label class="block mb-1 text-sm text-gray-800">Data de Nascimento</label>
+                <input
+                    type="date"
+                    id="birthday"
+                    class="w-full text-black border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Digite o aniversário do cliente"
+                    wire:model="birthday" />
+                @error('birthday')
+                <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block mb-1 text-sm text-gray-800">RG</label>
+                <input
+                    type="text"
+                    id="doc1"
+                    class="w-full text-black border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Digite o documento do cliente"
+                    wire:model="doc1"
+                    maxlength="255" />
+                @error('doc1')
+                <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block mb-1 text-sm text-gray-800">CPF</label>
+                <input
+                    type="text"
+                    id="doc2"
+                    class="w-full text-black border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Digite o documento do cliente"
+                    wire:model="doc2"
+                    maxlength="255" />
+                @error('doc2')
+                <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+
             <div>
                 <label class="block mb-1 text-sm text-gray-800">E-mail</label>
                 <input
                     type="email"
                     id="email"
                     class="w-full text-black border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Digite seu e-mail"
+                    placeholder="Digite o e-mail do cliente"
                     wire:model="email" />
                 @error('email')
                 <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
                 @enderror
             </div>
 
-            <!-- Senha -->
             <div>
-                <label class="block mb-1 text-sm text-gray-800">Senha</label>
+                <label class="block mb-1 text-sm text-gray-800">Telefone/Celular</label>
                 <input
-                    type="password"
-                    id="password"
+                    type="text"
+                    id="phone"
                     class="w-full text-black border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Digite sua senha"
-                    wire:model="password" />
-                @error('password')
+                    placeholder="Digite o telefone do cliente"
+                    wire:model="phone" />
+                @error('phone')
                 <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
                 @enderror
             </div>
 
-            <!-- Confirmar Senha -->
-            <div>
-                <label class="block mb-1 text-sm text-gray-800">Confirmar Senha</label>
-                <input
-                    type="password"
-                    id="password_confirmation"
-                    class="w-full text-black border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Confirme sua senha"
-                    wire:model="password_confirmation" />
-                @error('password_confirmation')
-                <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
 
-            <!-- Botão de Cadastro -->
             <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-                Criar Conta
+                Criar Cliente
             </button>
         </form>
     </div>
