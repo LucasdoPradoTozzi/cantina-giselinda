@@ -17,7 +17,7 @@ class SellIndex extends Component
 
         $sells = Sell::with('soldItem')
             ->withSum('soldItem', 'sold_price')
-            ->paginate(10);
+            ->paginate(5);
 
         $moneyService = new MoneyService();
 

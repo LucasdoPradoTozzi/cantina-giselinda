@@ -40,8 +40,7 @@ class CreateSell extends Component
     public $paymentMethod;
 
     public bool $isDeferredPayment = false;
-    public ?int $payingNow = null;
-
+    public string $payingNow;
 
 
     public function mount()
@@ -196,6 +195,8 @@ class CreateSell extends Component
             'items.*.amount.min' => 'Quantidade deve ser no mínimo 1.',
         ]);
 
+        $moneyService = new MoneyService();
+
         if ($this->isDeferredPayment) {
             if (empty($this->selectedCustomerId)) {
                 $this->addError('purchase', 'Cliente é obrigatório para compras fiado');
@@ -207,11 +208,8 @@ class CreateSell extends Component
                 return;
             }
 
-            $this->payingNow = (int) $this->payingNow;
+            $this->payingNow = preg_replace('/\D/', '', $this->payingNow);
         }
-
-
-
 
         try {
 
@@ -226,8 +224,6 @@ class CreateSell extends Component
             $sellId = $sell->id;
 
             $saleValue = 0;
-
-            $moneyService = new MoneyService();
 
             foreach ($this->items as $product) {
                 $productById = Product::where('id', $product['product_id'])->first();

@@ -14,13 +14,10 @@ class ShowSell extends Component
     {
 
         $sell = Sell::with('soldItem.product')
-            ->withSum('soldItem', 'sold_price')
             ->where('id', $id)
             ->firstOrFail();
 
         $moneyService = new MoneyService();
-
-        $sell->sold_item_sum_sold_price = $moneyService->convertIntegerToString($sell->sold_item_sum_sold_price);
 
         $sell->soldItem = $sell->soldItem->map(function ($item) use ($moneyService) {
             $item->sold_price = $moneyService->convertIntegerToString($item->sold_price);

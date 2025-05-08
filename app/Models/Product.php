@@ -37,12 +37,12 @@ class Product extends Model
         return $this->hasMany(SoldItem::class);
     }
 
-    public function getValueForShowAttribute()
+    public function getValueForShowAttribute(): string
     {
         return app(MoneyService::class)->convertIntegerToString($this->value);
     }
 
-    public function getBuyValueForShowAttribute()
+    public function getBuyValueForShowAttribute(): string
     {
         return app(MoneyService::class)->convertIntegerToString($this->buy_value);
     }
