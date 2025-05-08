@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PaymentMethod;
-
+use App\Services\MoneyService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,4 +26,10 @@ class SalesPayment extends Model
     protected $casts = [
         'payment_method' => PaymentMethod::class,
     ];
+
+
+    public function getValueForShowAttribute(): string
+    {
+        return "R$ " . app(MoneyService::class)->convertIntegerToString($this->value);
+    }
 }

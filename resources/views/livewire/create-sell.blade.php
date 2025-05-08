@@ -60,7 +60,7 @@
 
         <div class="mb-4" @if(!$isDeferredPayment) hidden @endif>
             <x-forms.input-money
-                wire:model="payingNow"
+                wire:model.live="payingNow"
                 name="payingNow"
                 label="Está pagando algo agora?"
                 placeholder="Preencha apenas se for pagar algo agora." />
