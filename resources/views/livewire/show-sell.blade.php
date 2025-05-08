@@ -111,7 +111,7 @@
 
                 <div x-show="tab === 'customer-tab'" x-cloak>
                     @if($sell->customer)
-                    <h1>{{ $sell->customer->name }}</h1>
+                    <livewire:customer-card :customer="$sell->customer" />
                     <span>em breve, atualizações</span>
                     @else
                     <h1>Venda realizada sem cliente.</h1>
