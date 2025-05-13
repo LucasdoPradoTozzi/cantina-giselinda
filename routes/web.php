@@ -16,6 +16,8 @@ use App\Livewire\CreateProduct;
 use App\Livewire\CreateSell;
 use App\Livewire\CreateUser;
 use App\Livewire\CustomerCreate;
+use App\Livewire\CustomerIndex;
+use App\Livewire\CustomerShow;
 use App\Livewire\Login;
 use App\Livewire\ProductsIndex;
 use App\Livewire\ProductTypesIndex;
@@ -70,9 +72,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/wastes/{id}', [WasteController::class, 'show']);
 
     //CUSTOMERS
-    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers', CustomerIndex::class)->name('customer.index');
     Route::get('/customers/new', CustomerCreate::class)->name('customer.create');
-    Route::post('/customers', [CustomerController::class, 'store']);
+    Route::get('/customers/{id}', CustomerShow::class)->name('customer.show');
 
     //DASHBOARD
     Route::get('/dashboard/best-sellers', [DashboardController::class, 'getTopFiveBestSellers']);

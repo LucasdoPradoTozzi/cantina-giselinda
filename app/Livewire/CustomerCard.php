@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Customer;
 use Carbon\Carbon;
 
 use Livewire\Component;
@@ -9,10 +10,10 @@ use Livewire\Component;
 class CustomerCard extends Component
 {
 
-    public $customer;
+    public Customer $customer;
     public $customerBirthday = null;
 
-    public function mount($customer)
+    public function mount(Customer $customer)
     {
         $this->customer = $customer;
         if ($this->customer->birthday) {

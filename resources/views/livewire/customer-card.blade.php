@@ -7,7 +7,12 @@
     </div>
 
     <div>
-        <h2 class="text-lg font-semibold text-gray-900">{{ $customer->name }}</h2>
+        <a href="/customers/{{ $customer->id }}"
+            wire:navigate
+            class="text-lg font-semibold text-gray-900 hover:underline hover:text-blue-600 transition">
+            {{ $customer->name }}
+        </a>
+
         <div class="text-sm text-gray-600 space-y-1 mt-1">
             @if($customerBirthday)
             <div><strong>Aniversário:</strong> {{ $customerBirthday }}</div>

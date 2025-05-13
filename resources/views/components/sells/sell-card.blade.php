@@ -9,7 +9,7 @@
                 {{ $sell->title }}
             </a>
         </h3>
-        <x-show-price label="Valor recebido"> {{ $sell->sold_item_sum_sold_price }}</x-show-price>
+        <x-show-price label="Valor recebido"> {{ $sell->sale_value_for_show }}</x-show-price>
     </div>
     <div>
     </div>

@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@myapp.com',
-            'password' => 'secret'
+            'password' => 'secret',
+            'is_approved' => 1
         ]);
 
         // $this->call(ProductSeeder::class);

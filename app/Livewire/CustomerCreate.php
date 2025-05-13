@@ -65,7 +65,7 @@ class CustomerCreate extends Component
             'photo_path' => $photoPath
         ]);
 
-        return redirect()->route('sells.create');;
+        return redirect()->route('customer.index');;
     }
 
     public function render()
