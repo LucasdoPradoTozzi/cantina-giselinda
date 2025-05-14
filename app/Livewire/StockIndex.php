@@ -15,7 +15,7 @@ class StockIndex extends Component
     public function render()
     {
 
-        $stock = Stock::with('product.productType')->paginate(10);
+        $stock = Stock::with('product.productType')->paginate(5);
 
 
         return view('livewire.stock-index', ['stock' => $stock]);

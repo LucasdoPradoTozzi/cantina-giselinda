@@ -40,80 +40,106 @@
         </div>
     </form>
 
-    <div class="bg-gray-800 rounded-lg p-6 text-white space-y-4 w-full max-w-xl">
-        <label for="paymentMethod" class="block mb-2 font-semibold">Forma de Pagamento</label>
-        <select id="paymentMethod" wire:model="paymentMethod" class="rounded-xl bg-black/100 border border-white/10 px-5 py-4 w-full">
-            @foreach (\App\Enums\PaymentMethod::cases() as $method)
-            <option value="{{ $method->value }}">{{ $method->label() }}</option>
-            @endforeach
-        </select>
-        <div class="flex items-center">
-            <input
-                id="isDeferredPayment"
-                type="checkbox"
-                wire:model.live="isDeferredPayment"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
-            <label for="isDeferredPayment" class="ml-2 block text-sm">
-                Fiado?
-            </label>
-        </div>
+    @if ($showPaymentModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-gray-800 rounded-xl p-6 w-full max-w-xl text-white space-y-4 shadow-lg relative">
 
-        <div class="mb-4" @if(!$isDeferredPayment) hidden @endif>
-            <x-forms.input-money
-                wire:model.live="payingNow"
-                name="payingNow"
-                label="Está pagando algo agora?"
-                placeholder="Preencha apenas se for pagar algo agora." />
-        </div>
+            <h2 class="text-xl font-bold mb-4">Pagamento</h2>
 
-        <label for="product_id" class="block mb-2 font-semibold">Cliente</label>
-        <select
-            wire:model.live="selectedCustomerId"
-            id="customer_id"
-            class="rounded-xl bg-black/100 border border-white/10 px-5 py-4 w-full">
-            <option value="">Selecione um Cliente</option>
-            @foreach($customers as $customer)
-            <option value="{{ $customer->id }}">
-                {{ $customer->name }}
-            </option>
-            @endforeach
-        </select>
-        @if ($errors->has('selectedCustomerId'))
-        <div class="bg-red-600 text-white p-2 mb-4 rounded">
-            {{ $errors->first('selectedCustomerId') }}
-        </div>
-        @endif
+            <!-- Forma de Pagamento -->
+            <label for="paymentMethod" class="block mb-2 font-semibold">Forma de Pagamento</label>
+            <select id="paymentMethod" wire:model="paymentMethod" class="rounded-xl bg-black border border-white/10 px-5 py-4 w-full">
+                @foreach (\App\Enums\PaymentMethod::cases() as $method)
+                <option value="{{ $method->value }}">{{ $method->label() }}</option>
+                @endforeach
+            </select>
 
-        @if($selectedCustomerId && $selectedCustomer)
-        <div class="bg-gray-900 p-5 rounded-xl mt-6 space-y-4 border border-white/10">
-            <div class="flex items-center gap-4">
-                <img src="{{ ($selectedCustomer->photo_path) ? asset('storage/photos/' . $selectedCustomer->photo_path) :  asset('images/noPhoto.jpg') }}"
-                    alt="Foto do Cliente"
-                    class="w-16 h-16 rounded-full border border-white/20 object-cover">
-                <div>
-                    <div class="text-lg font-semibold">{{ $selectedCustomer->name }}</div>
-
-                </div>
+            <!-- Fiado -->
+            <div class="flex items-center mt-2">
+                <input
+                    id="isDeferredPayment"
+                    type="checkbox"
+                    wire:model.live="isDeferredPayment"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+                <label for="isDeferredPayment" class="ml-2 block text-sm">
+                    Fiado?
+                </label>
             </div>
-            <div class="space-y-1">
-                <div>
-                    <span class="font-semibold">Aniversário:</span>
-                    {{ $selectedCustomerBirthday }} ({{ $selectedCustomerAge }} anos)
+
+            <!-- Valor Pago (se fiado) -->
+            @if ($isDeferredPayment)
+            <div class="mb-4">
+                <x-forms.input-money
+                    wire:model.live="payingNow"
+                    name="payingNow"
+                    label="Está pagando algo agora?"
+                    placeholder="Preencha apenas se for pagar algo agora." />
+            </div>
+            @endif
+
+            <!-- Cliente -->
+            <label for="customer_id" class="block mb-2 font-semibold">Cliente</label>
+            <select
+                wire:model.live="selectedCustomerId"
+                id="customer_id"
+                class="rounded-xl bg-black border border-white/10 px-5 py-4 w-full">
+                <option value="">Selecione um Cliente</option>
+                @foreach($customers as $customer)
+                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                @endforeach
+            </select>
+
+            @if ($errors->has('selectedCustomerId'))
+            <div class="bg-red-600 text-white p-2 mb-4 rounded">
+                {{ $errors->first('selectedCustomerId') }}
+            </div>
+            @endif
+
+            <!-- Cliente Selecionado Preview -->
+            @if($selectedCustomerId && $selectedCustomer)
+            <div class="bg-gray-900 p-4 rounded-lg mt-4 border border-white/10">
+                <div class="flex items-center gap-4">
+                    <img src="{{ $selectedCustomer->photo_path ? asset('storage/photos/' . $selectedCustomer->photo_path) : asset('images/noPhoto.jpg') }}"
+                        alt="Foto do Cliente"
+                        class="w-14 h-14 rounded-full border border-white/20 object-cover">
+                    <div>
+                        <div class="font-semibold">{{ $selectedCustomer->name }}</div>
+                        <div class="text-sm">
+                            <span class="font-semibold">Aniversário:</span>
+                            {{ $selectedCustomerBirthday }} ({{ $selectedCustomerAge }} anos)
+                        </div>
+                    </div>
                 </div>
 
                 @if ($selectedCustomerIsBirthday)
-                <div class="text-yellow-400 font-semibold">
-                    🎉 É aniversário do cliente hoje!! Que tal um desconto?
+                <div class="text-yellow-400 font-semibold mt-2">
+                    🎉 É aniversário do cliente hoje! Que tal um desconto?
                 </div>
                 @elseif ($selectedCustomerDaysUntilBirthday !== null && $selectedCustomerDaysUntilBirthday <= 30)
-                    <div class="text-green-400">
+                    <div class="text-green-400 mt-2">
                     🎂 Faltam {{ $selectedCustomerDaysUntilBirthday }} dias para o aniversário.
-                    @endif
             </div>
+            @endif
         </div>
         @endif
-    </div>
 
+        <!-- Botões -->
+        <div class="flex justify-between items-center pt-4 border-t border-white/10">
+            <button
+                type="button"
+                wire:click="$set('showPaymentModal', false)"
+                class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded text-white">
+                Cancelar
+            </button>
+            <button
+                type="button"
+                wire:click="submitSell"
+                class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-white font-semibold">
+                Confirmar venda
+            </button>
+        </div>
+    </div>
+    @endif
 
 
 
@@ -183,16 +209,14 @@
         @endforelse
     </div>
 
-    <!-- Área fixa -->
     <div class="mt-4 pt-4 border-t border-gray-700 font-semibold">
         Total: R$ {{ $totalToShow }}
 
         <button
             type="button"
-            wire:loading.attr="disabled"
-            wire:click="submitSell"
-            class="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-lg text-white font-semibold w-full disabled:opacity-50">
-            Finalizar venda
+            wire:click="$set('showPaymentModal', true)"
+            class="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-lg text-white font-semibold w-full">
+            Ir para pagamento
         </button>
 
         @if ($errors->has('purchase'))

@@ -42,6 +42,8 @@ class CreateSell extends Component
     public bool $isDeferredPayment = false;
     public string $payingNow;
 
+    public bool $showPaymentModal = false;
+
 
     public function mount()
     {
