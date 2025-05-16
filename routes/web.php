@@ -30,9 +30,7 @@ Route::get('/register', CreateUser::class)->name('register');
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    });
+    Route::get('/', \App\Livewire\Dashboard::class)->name('dashboard');
 
 
     //PRODUCTS ROUTES

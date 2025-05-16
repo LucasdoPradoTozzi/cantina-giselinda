@@ -1,3 +1,6 @@
+{{-- This file is now replaced by the Livewire Dashboard component. --}}
+{{-- See resources/views/livewire/dashboard.blade.php --}}
+
 <x-layout>
 
     <div class="w-96 h-96">
