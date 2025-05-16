@@ -10,11 +10,20 @@ class ProductTypesIndex extends Component
 {
     use WithPagination;
 
+    public $search = '';
 
+    protected $updatesQueryString = ['search'];
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
-        $productTypes = ProductType::latest()->paginate(10);
+        $productTypes = ProductType::where('name', 'like', '%' . $this->search . '%')
+            ->latest()
+            ->paginate(10);
         return view('livewire.product-types-index', ['productTypes' => $productTypes]);
     }
 }
