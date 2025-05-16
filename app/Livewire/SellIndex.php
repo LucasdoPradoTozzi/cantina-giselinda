@@ -15,7 +15,10 @@ class SellIndex extends Component
     public $search = '';
     protected $updatesQueryString = ['search'];
 
-    public function updatingSearch() { $this->resetPage(); }
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {

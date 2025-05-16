@@ -18,5 +18,5 @@
             <span class="text-xs text-red-700 font-bold">Não pago</span>
             <span class="font-semibold text-red-700">Falta: {{ $sell->remaining_value_for_show }}</span>
         </div>
-    @endif
+        @endif
 </div>
