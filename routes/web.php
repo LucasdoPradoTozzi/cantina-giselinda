@@ -24,6 +24,7 @@ use App\Livewire\ProductTypesIndex;
 use App\Livewire\SellIndex;
 use App\Livewire\ShowSell;
 use App\Livewire\StockIndex;
+use App\Livewire\EditProduct;
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', CreateUser::class)->name('register');
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{id}', [ProductController::class, 'show']);
     Route::post('/products/{id}', [ProductController::class, 'update']);
     Route::post('/products/{id}/delete', [ProductController::class, 'delete']);
+    Route::get('/products/{product}/edit', EditProduct::class)->name('products.edit');
 
 
     //PRODUCTS ROUTES
