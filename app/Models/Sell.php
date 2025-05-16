@@ -36,12 +36,18 @@ class Sell extends Model
 
     public function getSaleValueForShowAttribute(): string
     {
-        return app(MoneyService::class)->convertIntegerToString($this->sale_value);
+        return 'R$ ' . app(\App\Services\MoneyService::class)->convertIntegerToString($this->sale_value);
     }
 
     public function getPaidValueForShowAttribute(): string
     {
-        return app(MoneyService::class)->convertIntegerToString($this->paid_value);
+        return 'R$ ' . app(\App\Services\MoneyService::class)->convertIntegerToString($this->paid_value);
+    }
+
+    public function getRemainingValueForShowAttribute(): string
+    {
+        $remaining = max(0, $this->sale_value - $this->paid_value);
+        return 'R$ ' . app(\App\Services\MoneyService::class)->convertIntegerToString($remaining);
     }
 
     public function isFullyPaid(): bool

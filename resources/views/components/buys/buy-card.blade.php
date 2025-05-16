@@ -1,16 +1,12 @@
 @props(['buy'])
-
-<x-panel class="flex gap-x-6">
-    <div class="flex-1 flex flex-col">
-        <a href="#" class="self-start text-sm text-gray-400 transition-colors duration-300">{{ $buy->created_at->format('d/m/Y H:i:s') }}</a>
-
-        <h3 class="font-bold text-xl mt-3 group-hover:text-blue-800">
-            <a href="/buys/{{$buy->id}}">
-                {{ $buy->title }}
-            </a>
-        </h3>
-        <x-show-price label="Valor gasto"> {{ $buy->purchase_item_sum_total_price }}</x-show-price>
+<div class="bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 rounded-xl shadow-md p-4 flex flex-col gap-2 border border-gray-300 hover:shadow-lg transition-all duration-200 min-w-[220px] max-w-[320px] mx-auto">
+    <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
+        <span>{{ $buy->created_at->format('d/m/Y H:i') }}</span>
+        <a href="/buys/{{$buy->id}}" class="text-gray-700 hover:underline font-semibold">Ver detalhes</a>
     </div>
-    <div>
+    <div class="font-bold text-lg text-gray-900 truncate">{{ $buy->title }}</div>
+    <div class="flex items-center justify-between mt-2">
+        <span class="text-sm text-gray-700">Valor gasto:</span>
+        <span class="font-semibold text-red-700">{{ $buy->purchase_item_sum_total_price_for_show }}</span>
     </div>
-</x-panel>
+</div>

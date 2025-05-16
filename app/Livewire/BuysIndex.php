@@ -11,12 +11,20 @@ class BuysIndex extends Component
 {
     use WithPagination;
 
+    public $search = '';
+    protected $updatesQueryString = ['search'];
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
-
         $buys = Buy::with('purchaseItem')
             ->withSum('purchaseItem', 'total_price')
-            ->paginate(10);
+            ->where('title', 'like', '%' . $this->search . '%')
+            ->paginate(9);
 
         $moneyService = new MoneyService();
 

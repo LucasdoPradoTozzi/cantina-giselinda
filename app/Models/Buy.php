@@ -16,4 +16,11 @@ class Buy extends Model
     {
         return $this->hasMany(PurchaseItem::class);
     }
+
+    public function getPurchaseItemSumTotalPriceForShowAttribute(): string
+    {
+        return isset($this->purchase_item_sum_total_price)
+            ? 'R$ ' . app(\App\Services\MoneyService::class)->convertIntegerToString($this->purchase_item_sum_total_price)
+            : '';
+    }
 }

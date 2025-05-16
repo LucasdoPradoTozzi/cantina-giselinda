@@ -12,12 +12,18 @@ class SellIndex extends Component
 
     use WithPagination;
 
+    public $search = '';
+    protected $updatesQueryString = ['search'];
+
+    public function updatingSearch() { $this->resetPage(); }
+
     public function render()
     {
 
         $sells = Sell::with('soldItem')
             ->withSum('soldItem', 'sold_price')
-            ->paginate(5);
+            ->where('title', 'like', '%' . $this->search . '%')
+            ->paginate(9);
 
         $moneyService = new MoneyService();
 

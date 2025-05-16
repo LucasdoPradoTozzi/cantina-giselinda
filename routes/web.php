@@ -18,6 +18,7 @@ use App\Livewire\CreateUser;
 use App\Livewire\CustomerCreate;
 use App\Livewire\CustomerIndex;
 use App\Livewire\CustomerShow;
+use App\Livewire\Dashboard;
 use App\Livewire\Login;
 use App\Livewire\ProductsIndex;
 use App\Livewire\ProductTypesIndex;
@@ -31,7 +32,7 @@ Route::get('/register', CreateUser::class)->name('register');
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', \App\Livewire\Dashboard::class)->name('dashboard');
+    Route::get('/', Dashboard::class)->name('dashboard');
 
 
     //PRODUCTS ROUTES

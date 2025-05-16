@@ -1,15 +1,21 @@
 @section('title', 'Listagem de Vendas')
-<div>
-    <div class="p-4">
+<div class="p-2.5">
+    <div class="flex justify-between items-center flex-wrap gap-4 p-2.5">
+        <input
+            wire:model.live.debounce.300ms="search"
+            type="text"
+            placeholder="Buscar venda por título..."
+            class="border rounded-lg px-4 py-2 w-full max-w-md text-black" />
         <x-link-button href="/sells/new" wire:navigate>Criar Nova Venda</x-link-button>
     </div>
-    <div class="p-4">
-        @foreach($sells as $sell)
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+        @forelse($sells as $sell)
         <x-sells.sell-card :$sell />
-        @endforeach
-        @if($sells->isEmpty())
-        <h1 class="text-center text-white-600 text-2xl mt-8">Sem vendas cadastradas até o momento</h1>
-        @endif
+        @empty
+        <p class="col-span-full text-gray-500">Sem vendas cadastradas até o momento</p>
+        @endforelse
     </div>
-    {{$sells->links()}}
+    <div class="mt-6">
+        {{$sells->links()}}
+    </div>
 </div>
