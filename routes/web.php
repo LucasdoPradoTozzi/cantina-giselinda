@@ -26,6 +26,7 @@ use App\Livewire\SellIndex;
 use App\Livewire\ShowSell;
 use App\Livewire\StockIndex;
 use App\Livewire\EditProduct;
+use App\Livewire\EditProductType;
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', CreateUser::class)->name('register');
