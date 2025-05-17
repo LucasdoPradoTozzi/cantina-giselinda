@@ -20,6 +20,7 @@ use App\Livewire\CustomerCreate;
 use App\Livewire\CustomerIndex;
 use App\Livewire\CustomerShow;
 use App\Livewire\Dashboard;
+use App\Livewire\EditWasteReason;
 use App\Livewire\Login;
 use App\Livewire\ProductsIndex;
 use App\Livewire\ProductTypesIndex;
@@ -28,6 +29,8 @@ use App\Livewire\ShowSell;
 use App\Livewire\StockIndex;
 use App\Livewire\EditProduct;
 use App\Livewire\EditProductType;
+use App\Livewire\WasteReasonCreate;
+use App\Livewire\WasteReasonIndex;
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', CreateUser::class)->name('register');
@@ -71,6 +74,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/wastes', [WasteController::class, 'index']);
     Route::post('/wastes', [WasteController::class, 'store']);
     Route::get('/wastes/{id}', [WasteController::class, 'show']);
+
+    //WASTE REASONS
+    Route::get('/waste-reasons/new', WasteReasonCreate::class)->name('waste-reasons.create');
+    Route::get('/waste-reasons', WasteReasonIndex::class)->name('waste-reasons.index');
+    Route::get('/waste-reasons/{wasteReason}/edit', EditWasteReason::class)->name('waste-reasons.edit');
 
     //CUSTOMERS
     Route::get('/customers', CustomerIndex::class)->name('customer.index');
