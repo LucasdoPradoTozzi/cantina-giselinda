@@ -25,13 +25,26 @@
         <nav class="flex-1 flex items-center justify-center" aria-label="Global">
             <div class="hidden lg:flex lg:gap-x-12">
                 <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
-                <x-nav-link href="/product-types" :active="request()->is('product-types')">Tipos de Produto</x-nav-link>
-                <x-nav-link href="/products" :active="request()->is('products')">Produtos</x-nav-link>
-                <x-nav-link href="/stock" :active="request()->is('stock')">Estoque</x-nav-link>
+                
+                <x-dropdown :active="request()->is('product-types') || request()->is('products') || request()->is('stock')">
+                    <x-slot name="trigger">Produtos</x-slot>
+                    <x-slot name="content">
+                        <x-dropdown-item href="/product-types" :active="request()->is('product-types')">Tipos de Produto</x-dropdown-item>
+                        <x-dropdown-item href="/products" :active="request()->is('products')">Produtos</x-dropdown-item>
+                        <x-dropdown-item href="/stock" :active="request()->is('stock')">Estoque</x-dropdown-item>
+                    </x-slot>
+                </x-dropdown>
+                
                 <x-nav-link href="/customers" :active="request()->is('customers')">Clientes</x-nav-link>
-                <x-nav-link href="/buys" :active="request()->is('buys')">Compras</x-nav-link>
-                <x-nav-link href="/sells" :active="request()->is('sells')">Vendas</x-nav-link>
-                <!-- <x-nav-link href="/wastes" :active="request()->is('wastes')">Desperdício</x-nav-link> -->
+                
+                <x-dropdown :active="request()->is('buys') || request()->is('sells')">
+                    <x-slot name="trigger">Transações</x-slot>
+                    <x-slot name="content">
+                        <x-dropdown-item href="/buys" :active="request()->is('buys')">Compras</x-dropdown-item>
+                        <x-dropdown-item href="/sells" :active="request()->is('sells')">Vendas</x-dropdown-item>
+                        <!-- <x-dropdown-item href="/wastes" :active="request()->is('wastes')">Desperdício</x-dropdown-item> -->
+                    </x-slot>
+                </x-dropdown>
             </div>
         </nav>
 
@@ -67,6 +80,11 @@
     $(document).ready(function() {
         $('.moneyInput').mask('##0.00', {
             reverse: true
+        });
+        
+        // Make dropdowns work on mobile/touch devices
+        $('.group').on('touchstart', function() {
+            $(this).find('.absolute').toggleClass('hidden');
         });
     });
 </script>
