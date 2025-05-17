@@ -15,6 +15,7 @@ use App\Livewire\CreateBuy;
 use App\Livewire\CreateProduct;
 use App\Livewire\CreateSell;
 use App\Livewire\CreateUser;
+use App\Livewire\CreateProductType;
 use App\Livewire\CustomerCreate;
 use App\Livewire\CustomerIndex;
 use App\Livewire\CustomerShow;
@@ -48,10 +49,8 @@ Route::middleware('auth')->group(function () {
 
     //PRODUCTS ROUTES
     Route::get('/product-types', ProductTypesIndex::class)->name('productTypes.index');
-    Route::get('/product-type/new', [ProductTypeController::class, 'create']);
-    Route::post('/product-type', [ProductTypeController::class, 'store']);
-    Route::get('/product-type/{id}', [ProductTypeController::class, 'show']);
-    Route::post('/product-type/{id}', [ProductTypeController::class, 'update']);
+    Route::get('/product-type/new', CreateProductType::class)->name('productTypes.create');
+    Route::get('/product-type/{productType}/edit', EditProductType::class)->name('productTypes.edit');
 
     //STOCK
     Route::get('/stock', StockIndex::class)->name('stock.index');
