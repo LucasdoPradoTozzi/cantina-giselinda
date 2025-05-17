@@ -29,6 +29,7 @@ use App\Livewire\ShowSell;
 use App\Livewire\StockIndex;
 use App\Livewire\EditProduct;
 use App\Livewire\EditProductType;
+use App\Livewire\UserProfileEdit;
 use App\Livewire\WasteReasonCreate;
 use App\Livewire\WasteReasonIndex;
 
@@ -39,6 +40,10 @@ Route::get('/register', CreateUser::class)->name('register');
 Route::middleware('auth')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
 
+    // USER PROFILE
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
 
     //PRODUCTS ROUTES
     Route::get('/products', ProductsIndex::class)->name('products.index');
