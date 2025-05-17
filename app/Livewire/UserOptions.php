@@ -7,13 +7,6 @@ use Livewire\Component;
 
 class UserOptions extends Component
 {
-    public $showOptions = false;
-
-    public function toggleOptions()
-    {
-        $this->showOptions = !$this->showOptions;
-    }
-
     public function logout()
     {
         Auth::logout();

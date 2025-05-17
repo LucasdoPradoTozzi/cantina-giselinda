@@ -36,13 +36,11 @@
     <aside id="sidebar" class="bg-white text-black w-64 min-h-screen fixed shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-40">
         <div class="p-4 border-b border-gray-200 flex items-center justify-center">
             <h1 class="text-xl font-bold">Cantina da Giselinda</h1>
-        </div>
-
-        @auth
-        <div class="p-4 border-b border-gray-200">
+        </div>        @auth
+        <div class="py-6 px-4 border-b border-gray-200 flex items-center justify-center">
             @livewire('user-options')
         </div>
-
+        
         <nav class="py-4" aria-label="Main Navigation">
             <div class="flex flex-col space-y-2 px-4">
                 <x-nav-link href="/" :active="request()->is('/')" class="py-2 px-4 rounded hover:bg-gray-100">Home</x-nav-link>
