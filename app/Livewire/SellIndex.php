@@ -26,7 +26,7 @@ class SellIndex extends Component
         $sells = Sell::with('soldItem')
             ->withSum('soldItem', 'sold_price')
             ->where('title', 'like', '%' . $this->search . '%')
-            ->paginate(9);
+            ->paginate(12);
 
         $moneyService = new MoneyService();
 
