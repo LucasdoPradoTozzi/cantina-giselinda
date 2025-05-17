@@ -30,6 +30,7 @@ use App\Livewire\StockIndex;
 use App\Livewire\EditProduct;
 use App\Livewire\EditProductType;
 use App\Livewire\UserProfileEdit;
+use App\Livewire\UsersAdminApproval;
 use App\Livewire\WasteReasonCreate;
 use App\Livewire\WasteReasonIndex;
 
@@ -44,6 +45,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {
         return view('profile');
     })->name('profile');
+
+    // USER ADMIN
+    Route::get('/users/approval', function () {
+        return view('users-approval');
+    })->name('users.approval');
 
     //PRODUCTS ROUTES
     Route::get('/products', ProductsIndex::class)->name('products.index');

@@ -68,6 +68,15 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
+
+                <div class="py-2">
+                    <x-dropdown :active="request()->is('users/approval')" class="w-full">
+                        <x-slot name="trigger">Administração</x-slot>
+                        <x-slot name="content">
+                            <x-dropdown-item href="/users/approval" :active="request()->is('users/approval')">Aprovação de Usuários</x-dropdown-item>
+                        </x-slot>
+                    </x-dropdown>
+                </div>
             </div>
         </nav>
         @endauth
