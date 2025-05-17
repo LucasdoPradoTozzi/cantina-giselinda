@@ -13,6 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @livewireStyles
 
 </head>
@@ -110,11 +111,6 @@
     $(document).ready(function() {
         $('.moneyInput').mask('##0.00', {
             reverse: true
-        });
-
-        // Make dropdowns work on mobile/touch devices
-        $('.group').on('touchstart', function() {
-            $(this).find('.absolute').toggleClass('hidden');
         });
 
         // Set initial sidebar state (collapsed by default)
